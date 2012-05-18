@@ -1,0 +1,20 @@
+Purpose
+	Provide a means of organizing datasheets and tagging them with metadata. Currently, the only metadata that can be added is a "friendly" name.
+
+Planned improvements
+	More metadata (manufacturer/publisher, product name, documentation URL)
+	Inventory system (Additional metadata: distributer product number, price, inventory levels)
+	Better GUI
+	
+Possible future additions
+	Custom fields
+
+To run
+	.NET Framework 4.5
+		http://www.microsoft.com/en-us/download/details.aspx?id=28978
+	SQL Server Compact Edition 4 Runtime
+		http://www.microsoft.com/en-us/download/details.aspx?id=17876
+
+To build
+	Visual Studio 2011
+	NuGet
