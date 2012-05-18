@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Document Organizer", "Docum
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrganizerDB", "OrganizerDB\OrganizerDB.csproj", "{D96ED505-5096-4484-9C46-F002E4854690}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextInputDialog", "TextInputDialog\TextInputDialog.csproj", "{03794EB1-4EAD-4035-972A-FAAE1960983F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFEx", "TextInputDialog\WPFEx.csproj", "{03794EB1-4EAD-4035-972A-FAAE1960983F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
