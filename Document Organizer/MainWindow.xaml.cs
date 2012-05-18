@@ -35,33 +35,39 @@ namespace Document_Organizer
         {
             Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
 
+            SetPDFPath();
+            SetupUI();
+            UpdateDbList();
+        }
+
+        private void SetPDFPath()
+        {
             if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.Path))
             {
+                // If the user has set a default path in the past, use it
                 mainPath = Properties.Settings.Default.Path;
-                SetupUI();
             }
-        }
-
-        private void SelectPath_Click_1(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.FolderBrowserDialog folder = new System.Windows.Forms.FolderBrowserDialog();
-            if (folder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            else
             {
-                setMainPath(folder.SelectedPath);
-            }
-        }
+                // Otherwise, ask the user for a path
 
-        private void setMainPath(string path)
-        {
-            mainPath = path;
-            Properties.Settings.Default.Path = mainPath;
-            Properties.Settings.Default.Save();
-            SetupUI();
+                PathSelectionDialog path = new PathSelectionDialog();
+                path.Title = "Please select the root PDF directory";
+                path.ShowDialog();
+                if (path.OkClicked)
+                {
+                    mainPath = path.Path;
+
+                    Properties.Settings.Default.Path = mainPath;
+                    Properties.Settings.Default.Save();
+                }
+                else
+                    Close();
+            }
         }
 
         private void SetupUI()
         {
-            SelectPath.Visibility = System.Windows.Visibility.Collapsed;
             //string[] dirs = Directory.GetDirectories(mainPath);
             //foreach (string dir in dirs)
             //{
@@ -73,11 +79,9 @@ namespace Document_Organizer
             {
                 Files.Items.Add(System.IO.Path.GetFileName(file));
             }
-
-            refreshDbList();
         }
 
-        private void refreshDbList()
+        private void UpdateDbList()
         {
             ORM.Items.Clear();
 
@@ -139,7 +143,7 @@ namespace Document_Organizer
 
                 int changes = context.SaveChanges();
 
-                refreshDbList();
+                UpdateDbList();
             }
         }
 
@@ -234,7 +238,7 @@ namespace Document_Organizer
 
                 int changes = context.SaveChanges();
 
-                refreshDbList();
+                UpdateDbList();
             }
         }
     }
