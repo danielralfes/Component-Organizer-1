@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 11
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Document Organizer", "Document Organizer\Document Organizer.csproj", "{477D25D5-6076-4CA9-B215-2D0A88EF5276}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrganizerDB", "OrganizerDB\OrganizerDB.csproj", "{D96ED505-5096-4484-9C46-F002E4854690}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextInputDialog", "TextInputDialog\TextInputDialog.csproj", "{03794EB1-4EAD-4035-972A-FAAE1960983F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03794EB1-4EAD-4035-972A-FAAE1960983F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03794EB1-4EAD-4035-972A-FAAE1960983F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03794EB1-4EAD-4035-972A-FAAE1960983F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03794EB1-4EAD-4035-972A-FAAE1960983F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{477D25D5-6076-4CA9-B215-2D0A88EF5276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{477D25D5-6076-4CA9-B215-2D0A88EF5276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{477D25D5-6076-4CA9-B215-2D0A88EF5276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{477D25D5-6076-4CA9-B215-2D0A88EF5276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D96ED505-5096-4484-9C46-F002E4854690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D96ED505-5096-4484-9C46-F002E4854690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D96ED505-5096-4484-9C46-F002E4854690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D96ED505-5096-4484-9C46-F002E4854690}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
