@@ -23,7 +23,7 @@
 
         <TextBox Name="UserText" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="5"></TextBox>
 
-        <Button Click="OkBtnClicked" Grid.Row="4" Grid.Column="1" Width="100" Margin="5">Ok</Button>
+        <Button Click="OkBtnClicked" IsDefault="True" Grid.Row="4" Grid.Column="1" Width="100" Margin="5">Ok</Button>
         <Button Click="CancelClicked" Grid.Row="4" Grid.Column="2" Width="100" Margin="5">Cancel</Button>
 
         <Grid Grid.Row="0" Grid.Column="2">
