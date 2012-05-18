@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OrganizerDB;
+using WPFEx;
 
 namespace Document_Organizer
 {
@@ -115,6 +116,9 @@ namespace Document_Organizer
                     newPDF = true;
                 }
 
+                if ((string)((ListBoxItem)Folder.SelectedValue).Content == "Add folder...")
+                    Folder.SelectedValue = AddFolder();
+
                 thisPdf.Folder = (from f in context.Folders
                                   where f.Name == (string)Folder.SelectedValue
                                   select f).FirstOrDefault();
@@ -196,14 +200,20 @@ namespace Document_Organizer
                 }
 
                 ListBoxItem addFolder = new ListBoxItem();
-                addFolder.Selected += addFolder_Selected;
                 addFolder.Content = "Add folder...";
                 Folder.Items.Add(addFolder);
             }
         }
 
-        private void addFolder_Selected(object sender, RoutedEventArgs e)
+        private string AddFolder()
         {
+            TextInputDialog folderName = new TextInputDialog();
+            folderName.Title = "Please enter a folder name";
+            folderName.ShowDialog();
+            if (folderName.OkClicked)
+                return folderName.Text;
+            else
+                return null;
         }
 
         private void DeleteEntry(object sender, RoutedEventArgs e)

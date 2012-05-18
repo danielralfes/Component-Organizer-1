@@ -164,6 +164,10 @@
       <Project>{d96ed505-5096-4484-9c46-f002e4854690}</Project>
       <Name>OrganizerDB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TextInputDialog\TextInputDialog.csproj">
+      <Project>{03794eb1-4ead-4035-972a-faae1960983f}</Project>
+      <Name>TextInputDialog</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
