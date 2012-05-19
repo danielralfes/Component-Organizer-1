@@ -14,7 +14,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ListBox x:Name="Files" Grid.Row="1" SelectionChanged="ShowSelectionFromFiles"/>
-        <ListBox x:Name="ORM" Grid.Row="1" SelectionChanged="ShowSelectionFromDB" Grid.Column="1"/>
+        <TreeView x:Name="ORM" Grid.Row="1" SelectedItemChanged="ShowSelectionFromDB"  Grid.Column="1"/>
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

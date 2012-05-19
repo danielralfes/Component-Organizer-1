@@ -100,13 +100,18 @@ namespace Document_Organizer
             Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
             using (var context = new OrganizerContext())
             {
-                //foreach (var folder in context.Folders)
-                //{
-                foreach (var pdf in context.PDFs)
+                foreach (var folder in context.Folders)
                 {
-                    ORM.Items.Add(pdf.FileName);
+                    TreeViewItem folderItem = new TreeViewItem();
+                    folderItem.Header = folder.Name;
+                    foreach (var pdf in folder.PDFs)
+                    {
+                        TreeViewItem pdfItem = new TreeViewItem();
+                        pdfItem.Header = pdf.FileName;
+                        folderItem.Items.Add(pdfItem);
+                    }
+                    ORM.Items.Add(folderItem);
                 }
-                //}
             }
         }
 
@@ -132,7 +137,7 @@ namespace Document_Organizer
                     newPDF = true;
                 }
 
-                if ((string)((ListBoxItem)Folder.SelectedItem).Content == "Add folder...")
+                if ((string)(Folder.SelectedItem) == "Add folder...")
                 {
                     string folderName = AddFolder();
                     if (folderName == null)
@@ -176,8 +181,6 @@ namespace Document_Organizer
 
         private void ShowSelectionFromFiles(object sender, SelectionChangedEventArgs e)
         {
-            ORM.SelectedIndex = -1;
-
             using (var context = new OrganizerContext())
             {
                 var thisPdf = (from p in context.PDFs
@@ -198,14 +201,28 @@ namespace Document_Organizer
             }
         }
 
-        private void ShowSelectionFromDB(object sender, SelectionChangedEventArgs e)
+        private void ShowSelectionFromDB(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             Files.SelectedIndex = -1;
+
+            if (sender == null)
+                return;
+
+            TreeView _sender = sender as TreeView;
+            if (_sender == null)
+                return;
+
+            string selectedName = null;
+
+            if (_sender.SelectedItem is string)
+                selectedName = (string)_sender.SelectedItem;
+            else if (_sender.SelectedItem is TreeViewItem)
+                selectedName = (string)((TreeViewItem)_sender.SelectedItem).Header;
 
             using (var context = new OrganizerContext())
             {
                 var thisPdf = (from p in context.PDFs
-                               where p.FileName == (string)(((ListBox)sender).SelectedValue)
+                               where p.FileName == selectedName
                                select p).FirstOrDefault();
 
                 if (thisPdf == null)
@@ -230,9 +247,7 @@ namespace Document_Organizer
                     Folder.Items.Add(folder.Name);
                 }
 
-                ListBoxItem addFolder = new ListBoxItem();
-                addFolder.Content = "Add folder...";
-                Folder.Items.Add(addFolder);
+                Folder.Items.Add("Add folder...");
             }
         }
 
@@ -249,8 +264,8 @@ namespace Document_Organizer
 
         private void DeleteEntry(object sender, RoutedEventArgs e)
         {
-            if (ORM.SelectedIndex == -1)
-                return;
+            //if (ORM.SelectedIndex == -1)
+            //    return;
 
             using (var context = new OrganizerContext())
             {
