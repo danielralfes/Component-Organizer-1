@@ -20,13 +20,12 @@ using WPFEx;
 
 /*
  * TODO:
- * 1: Finish new folder functionality
- * 2: Treeview tracked files by manufacturer
- * 3: Hide tracked files in filesystem view
- * 4: Improve tracked files view
+ * 1: Treeview tracked files by manufacturer
+ * 2: Hide tracked files in filesystem view
+ * 3: Improve tracked files view
  * 4: Add more fields
  * 5: Allow files to be added by drag drop file or folder
- * 7: ...
+ * 6: ...
  *
  * n-1: Some SoC would be REALLY nice
  * n: Work on GUI & UX
@@ -133,12 +132,27 @@ namespace Document_Organizer
                     newPDF = true;
                 }
 
-                if ((string)((ListBoxItem)Folder.SelectedValue).Content == "Add folder...")
-                    Folder.SelectedValue = AddFolder();
+                if ((string)((ListBoxItem)Folder.SelectedItem).Content == "Add folder...")
+                {
+                    string folderName = AddFolder();
+                    if (folderName == null)
+                        return;
 
-                thisPdf.Folder = (from f in context.Folders
-                                  where f.Name == (string)Folder.SelectedValue
-                                  select f).FirstOrDefault();
+                    // Create a new folder
+                    Folder f = new Folder();
+                    f.Name = folderName;
+                    context.Folders.Add(f);
+
+                    // Add this PDF to the new folder
+                    thisPdf.Folder = f;
+
+                    // Select new folder in combobox
+                    Folder.SelectedIndex = Folder.Items.IndexOf(f.Name);
+                }
+                else
+                    thisPdf.Folder = (from f in context.Folders
+                                      where f.Name == (string)Folder.SelectedValue
+                                      select f).FirstOrDefault();
 
                 if (thisPdf.Folder == null)
                     thisPdf.Folder = (from f in context.Folders
