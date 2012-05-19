@@ -18,11 +18,24 @@ using System.Windows.Shapes;
 using OrganizerDB;
 using WPFEx;
 
+/*
+ * TODO:
+ * 1: Finish new folder functionality
+ * 2: Treeview tracked files by manufacturer
+ * 3: Hide tracked files in filesystem view
+ * 4: Improve tracked files view
+ * 4: Add more fields
+ * 5: Allow files to be added by drag drop file or folder
+ * 7: ...
+ *
+ * n-1: Some SoC would be REALLY nice
+ * n: Work on GUI & UX
+ * n+1: Make it do inventory tracking
+ *
+ */
+
 namespace Document_Organizer
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
