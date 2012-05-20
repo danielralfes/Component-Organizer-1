@@ -14,38 +14,49 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ListBox x:Name="Files" Grid.Row="1" SelectionChanged="ShowSelectionFromFiles"/>
-        <TreeView x:Name="ORM" Grid.Row="1" SelectedItemChanged="ShowSelectionFromDB"  Grid.Column="1"/>
-        <Grid Grid.Row="1" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition  Height="Auto"/>
-                <RowDefinition />
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <TreeView x:Name="ORM" Grid.Row="1" SelectedItemChanged="ShowSelectionFromDB" Grid.Column="1"/>
+        <DockPanel Grid.Row="1" Grid.Column="2">
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0">File</Label>
-            <Label x:Name="SelectedFile" Grid.Row="0" Grid.Column="1" />
+                <Label Grid.Row="1">Name</Label>
+                <TextBox x:Name="PartName" Grid.Row="1" Grid.Column="1" Margin="5"/>
 
-            <Label Content="Name" Grid.Row="1"/>
-            <TextBox x:Name="FriendlyName" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                <Label Grid.Row="3">Datasheet</Label>
+                <Label Grid.Row="3" Grid.Column="1" Margin="5">PLACEHOLD PLACEHOLD PLACEHOLD NEED BROWSE BUTTON?</Label>
 
-            <Label Grid.Row="2" Content="Folder"/>
-            <ComboBox x:Name="Folder" DropDownOpened="UpdateFoldersCombobox" Grid.Row="2" Grid.Column="1" Margin="5"/>
+                <Label Grid.Row="4">Distributer URL</Label>
+                <TextBox Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
 
-            <Grid Grid.Row="4" Grid.Column="1" >
+                <Label Grid.Row="5">Manufacturer</Label>
+                <ComboBox x:Name="Manufacturer" DropDownOpened="UpdateManufacturersCombobox" Grid.Row="6" Grid.Column="1" Margin="5"/>
+
+            </Grid>
+
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Click="DeleteEntry" Content="Delete" Margin="5" Padding="4"/>
-                <Button Grid.Column="2" Click="SaveEntry" Content="Save" Margin="5" Padding="4"/>
+                <Button Grid.Row="1" Grid.Column="0" Click="DeleteEntry" Content="Delete" Margin="5" Padding="4"/>
+                <Button Grid.Row="1" Grid.Column="2" Click="SaveEntry" Content="Save" Margin="5" Padding="4"/>
             </Grid>
-        </Grid>
+        </DockPanel>
     </Grid>
 </Window>

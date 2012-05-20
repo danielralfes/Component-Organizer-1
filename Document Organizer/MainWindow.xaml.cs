@@ -20,16 +20,17 @@ using WPFEx;
 
 /*
  * TODO:
- * 1: Treeview tracked files by manufacturer
- * 2: Hide tracked files in filesystem view
- * 3: Improve tracked files view
- * 4: Add more fields
- * 5: Allow files to be added by drag drop file or folder
- * 6: ...
+ * 1: Make it do inventory tracking
+ * 2: Add more fields
+ * 3: Allow files to be added by drag and drop
+ * 4: Take advantage of WPF's data binding
+ * 5: Hide tracked files in filesystem view
+ * 6: Add searching
+ * 7: Treeview should be MVVM
+ * 8: ...
  *
  * n-1: Some SoC would be REALLY nice
  * n: Work on GUI & UX
- * n+1: Make it do inventory tracking
  *
  */
 
@@ -64,7 +65,7 @@ namespace Document_Organizer
                 // Otherwise, ask the user for a path
 
                 PathSelectionDialog path = new PathSelectionDialog();
-                path.Title = "Please select the root PDF directory";
+                path.Title = "Please select the root Datasheet directory";
                 path.ShowDialog();
                 if (path.OkClicked)
                 {
@@ -97,18 +98,21 @@ namespace Document_Organizer
         {
             ORM.Items.Clear();
 
+            // TODO: Need to be able to update this list without clearing the items
+            //! ^^ AKA USE DATABINDING
+
             Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
             using (var context = new OrganizerContext())
             {
-                foreach (var folder in context.Folders)
+                foreach (var manufacturer in context.Manufacturers)
                 {
                     TreeViewItem folderItem = new TreeViewItem();
-                    folderItem.Header = folder.Name;
-                    foreach (var pdf in folder.PDFs)
+                    folderItem.Header = manufacturer.Name;
+                    foreach (var part in manufacturer.Parts)
                     {
-                        TreeViewItem pdfItem = new TreeViewItem();
-                        pdfItem.Header = pdf.FileName;
-                        folderItem.Items.Add(pdfItem);
+                        TreeViewItem partItem = new TreeViewItem();
+                        partItem.Header = part.PartName;
+                        folderItem.Items.Add(partItem);
                     }
                     ORM.Items.Add(folderItem);
                 }
@@ -126,51 +130,52 @@ namespace Document_Organizer
                     fileSelected = false;
                 string desiredFileName = (fileSelected ? (string)(Files.SelectedValue) : (string)(ORM.SelectedValue));
 
-                var thisPdf = (from p in context.PDFs
-                               where p.FileName == desiredFileName
-                               select p).FirstOrDefault();
+                var thisPart = (from p in context.Parts
+                                where p.Datasheet.FileName == desiredFileName
+                                select p).FirstOrDefault();
 
                 bool newPDF = false;
-                if (thisPdf == null)
+                if (thisPart == null)
                 {
-                    thisPdf = new PDF();
+                    thisPart = new Part();
                     newPDF = true;
                 }
 
-                if ((string)(Folder.SelectedItem) == "Add folder...")
+                if ((string)(Manufacturer.SelectedItem) == "Add manufacturer...")
                 {
-                    string folderName = AddFolder();
+                    string folderName = AddManufacturer();
                     if (folderName == null)
                         return;
 
                     // Create a new folder
-                    Folder f = new Folder();
+                    Manufacturer f = new Manufacturer();
                     f.Name = folderName;
-                    context.Folders.Add(f);
+                    context.Manufacturers.Add(f);
 
                     // Add this PDF to the new folder
-                    thisPdf.Folder = f;
+                    thisPart.Manufacturer = f;
 
                     // Select new folder in combobox
-                    Folder.SelectedIndex = Folder.Items.IndexOf(f.Name);
+                    Manufacturer.SelectedIndex = Manufacturer.Items.IndexOf(f.Name);
                 }
                 else
-                    thisPdf.Folder = (from f in context.Folders
-                                      where f.Name == (string)Folder.SelectedValue
-                                      select f).FirstOrDefault();
+                    thisPart.Manufacturer = (from f in context.Manufacturers
+                                             where f.Name == (string)Manufacturer.SelectedValue
+                                             select f).FirstOrDefault();
 
-                if (thisPdf.Folder == null)
-                    thisPdf.Folder = (from f in context.Folders
-                                      where f.Name == "Default"
-                                      select f).First();
+                if (thisPart.Manufacturer == null)
+                    thisPart.Manufacturer = (from f in context.Manufacturers
+                                             where f.Name == "Default"
+                                             select f).First();
 
-                thisPdf.FriendlyName = FriendlyName.Text;
+                thisPart.PartName = PartName.Text;
 
                 if (newPDF)
                 {
-                    thisPdf.FileName = (string)Files.SelectedValue;
+                    thisPart.Datasheet = new Datasheet();
+                    thisPart.Datasheet.FileName = (string)Files.SelectedValue;
 
-                    context.PDFs.Add(thisPdf);
+                    context.Parts.Add(thisPart);
                 }
 
                 int changes = context.SaveChanges();
@@ -183,21 +188,19 @@ namespace Document_Organizer
         {
             using (var context = new OrganizerContext())
             {
-                var thisPdf = (from p in context.PDFs
-                               where p.FileName == (string)(((ListBox)sender).SelectedValue)
+                var thisPdf = (from p in context.Parts
+                               where p.Datasheet.FileName == (string)(((ListBox)sender).SelectedValue)
                                select p).FirstOrDefault();
 
                 if (thisPdf == null)
                 {
-                    FriendlyName.Text = "";
-                    SelectedFile.Content = (string)(((ListBox)sender).SelectedValue);
-                    Folder.SelectedIndex = -1;
+                    PartName.Text = "";
+                    Manufacturer.SelectedIndex = -1;
                     return;
                 }
 
-                FriendlyName.Text = thisPdf.FriendlyName;
-                SelectedFile.Content = thisPdf.FileName;
-                Folder.SelectedIndex = -1;
+                PartName.Text = thisPdf.PartName;
+                Manufacturer.SelectedIndex = -1;
             }
         }
 
@@ -221,43 +224,42 @@ namespace Document_Organizer
 
             using (var context = new OrganizerContext())
             {
-                var thisPdf = (from p in context.PDFs
-                               where p.FileName == selectedName
+                var thisPdf = (from p in context.Parts
+                               where p.PartName == selectedName
                                select p).FirstOrDefault();
 
                 if (thisPdf == null)
                     return;
 
-                FriendlyName.Text = thisPdf.FriendlyName;
-                SelectedFile.Content = thisPdf.FileName;
-                Folder.SelectedValue = thisPdf.Folder.Name;
+                PartName.Text = thisPdf.PartName;
+                Manufacturer.SelectedValue = thisPdf.Manufacturer.Name;
             }
         }
 
-        private void UpdateFoldersCombobox(object sender, EventArgs e)
+        private void UpdateManufacturersCombobox(object sender, EventArgs e)
         {
-            Folder.Items.Clear();
+            Manufacturer.Items.Clear();
 
             using (var context = new OrganizerContext())
             {
-                var folders = context.Folders;
+                var manufacturers = context.Manufacturers;
 
-                foreach (Folder folder in folders)
+                foreach (Manufacturer manufacturer in manufacturers)
                 {
-                    Folder.Items.Add(folder.Name);
+                    Manufacturer.Items.Add(manufacturer.Name);
                 }
 
-                Folder.Items.Add("Add folder...");
+                Manufacturer.Items.Add("Add manufacturer...");
             }
         }
 
-        private string AddFolder()
+        private string AddManufacturer()
         {
-            TextInputDialog folderName = new TextInputDialog();
-            folderName.Title = "Please enter a folder name";
-            folderName.ShowDialog();
-            if (folderName.OkClicked)
-                return folderName.Text;
+            TextInputDialog manufacturerName = new TextInputDialog();
+            manufacturerName.Title = "Please enter a manufacturer name";
+            manufacturerName.ShowDialog();
+            if (manufacturerName.OkClicked)
+                return manufacturerName.Text;
             else
                 return null;
         }
@@ -269,14 +271,14 @@ namespace Document_Organizer
 
             using (var context = new OrganizerContext())
             {
-                var thisPdf = (from p in context.PDFs
+                var thisPdf = (from p in context.Datasheets
                                where p.FileName == (string)(ORM.SelectedValue)
                                select p).FirstOrDefault();
 
                 if (thisPdf == null)
                     return;
 
-                context.PDFs.Remove(thisPdf);
+                context.Datasheets.Remove(thisPdf);
 
                 int changes = context.SaveChanges();
 

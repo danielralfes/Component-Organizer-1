@@ -7,8 +7,11 @@ namespace OrganizerDB
     {
         protected override void Seed(OrganizerContext context)
         {
-            var defaultFolder = new Folder { FolderID = 0, Name = "Default", Path = "" };
-            context.Folders.Add(defaultFolder);
+            //var defaultFolder = new Folder { FolderID = 0, Name = "Default", Path = "" };
+            //context.Folders.Add(defaultFolder);
+
+            var defaultManufacturer = new Manufacturer { ManufacturerID = 0, Name = "Default" };
+            context.Manufacturers.Add(defaultManufacturer);
 
             //var TI = new Folder { FolderID = 1, Name = "Texas Instruments", Path = @"K:\PDF\Texas Instruments" };
             //context.Folders.Add(TI);

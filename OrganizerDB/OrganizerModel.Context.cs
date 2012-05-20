@@ -9,11 +9,11 @@ namespace OrganizerDB
         {
         }
 
-        public DbSet<PDF> PDFs { get; set; }
+        public DbSet<Part> Parts { get; set; }
 
-        public DbSet<Folder> Folders { get; set; }
+        public DbSet<Datasheet> Datasheets { get; set; }
 
-        public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<Manufacturer> Manufacturers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

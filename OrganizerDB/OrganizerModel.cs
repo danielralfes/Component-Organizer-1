@@ -1,52 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OrganizerDB
 {
-    public class PDF
+    public class Part
     {
         // Primary key
-        public int PDFID { get; set; }
+        [Key]
+        public int PartID { get; set; }
+
+        public string PartName { get; set; }
+
+        public string Description { get; set; }
+
+        public string DistributorURL { get; set; }
+
+        public int? DatasheetID { get; set; }
+
+        public int? ManufacturerID { get; set; }
+
+        public virtual Datasheet Datasheet { get; set; }
+
+        public virtual Manufacturer Manufacturer { get; set; }
+    }
+
+    public class Datasheet
+    {
+        // Primary key
+        [Key]
+        public int DatasheetID { get; set; }
 
         public string FileName { get; set; }
-
-        public string FriendlyName { get; set; }
-
-        // Foreign key
-        public int FolderID { get; set; }
-
-        // Foreign key
-        public int? PublisherID { get; set; }
-
-        public virtual Folder Folder { get; set; }
-
-        public virtual Publisher Publisher { get; set; }
     }
 
-    public class Folder
+    public class Manufacturer
     {
         // Primary key
-        public int FolderID { get; set; }
-
-        public string Name { get; set; }
-
-        public string Path { get; set; }
-
-        // Navigation property
-        public virtual ICollection<PDF> PDFs { get; private set; }
-    }
-
-    public class Publisher
-    {
-        // Primary key
-        public int PublisherID { get; set; }
+        [Key]
+        public int ManufacturerID { get; set; }
 
         public string Name { get; set; }
 
         // Navigation property
-        public virtual ICollection<PDF> PDFs { get; private set; }
+        public virtual ICollection<Part> Parts { get; private set; }
     }
 }
