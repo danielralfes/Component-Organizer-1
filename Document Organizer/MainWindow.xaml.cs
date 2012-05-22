@@ -9,20 +9,20 @@ using WPFEx;
 
 /*
  * TODO:
- * 1: Make it do inventory tracking
- * 2: Add more fields
- * 3: Allow files to be added by drag and drop
- * 4: Take advantage of WPF's data binding
- * 5: Hide tracked files in filesystem view
- * 6: Add searching
- * 7: Treeview should be MVVM
- * 8: ...
+ * TOP Priority:
+ * 1: Write viewmodel
+ * 2: Bind to viewmodel
+ * 3: Blah blah, abstraction MVVM all that
+ * n-1: Some SoC would be REALLY nice
+ *
+ * 4: Allow files to be added by drag and drop
+ * 5: Add searching
+ * 6: ...
  *
  * > Manufacturer
  *    > IC Type
  *       > IC
  *
- * n-1: Some SoC would be REALLY nice
  * n: Work on GUI & UX
  *
  */
