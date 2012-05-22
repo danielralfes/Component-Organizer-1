@@ -18,6 +18,10 @@ using WPFEx;
  * 7: Treeview should be MVVM
  * 8: ...
  *
+ * > Manufacturer
+ *    > IC Type
+ *       > IC
+ *
  * n-1: Some SoC would be REALLY nice
  * n: Work on GUI & UX
  *
@@ -38,7 +42,6 @@ namespace Document_Organizer
             Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
 
             SetPDFPath();
-            SetupUI();
             UpdateDbList();
         }
 
@@ -65,21 +68,6 @@ namespace Document_Organizer
                 }
                 else
                     Close();
-            }
-        }
-
-        private void SetupUI()
-        {
-            //string[] dirs = Directory.GetDirectories(mainPath);
-            //foreach (string dir in dirs)
-            //{
-            //    Files.Items.Add(dir);
-            //}
-
-            string[] files = Directory.GetFiles(mainPath, "*", SearchOption.AllDirectories);
-            foreach (string file in files)
-            {
-                Files.Items.Add(System.IO.Path.GetFileName(file));
             }
         }
 
@@ -114,10 +102,7 @@ namespace Document_Organizer
         {
             using (var context = new OrganizerContext())
             {
-                bool fileSelected = true;
-                if (Files.SelectedIndex == -1)
-                    fileSelected = false;
-                string desiredFileName = (fileSelected ? (string)(Files.SelectedValue) : (string)(ORM.SelectedValue));
+                string desiredFileName = (string)(ORM.SelectedValue);
 
                 var thisPart = (from p in context.Parts
                                 where p.Datasheet.FileName == desiredFileName
@@ -162,7 +147,7 @@ namespace Document_Organizer
                 if (newPDF)
                 {
                     thisPart.Datasheet = new Datasheet();
-                    thisPart.Datasheet.FileName = (string)Files.SelectedValue;
+                    thisPart.Datasheet.FileName = (string)DatasheetTextbox.Text;
 
                     context.Parts.Add(thisPart);
                 }
@@ -195,8 +180,6 @@ namespace Document_Organizer
 
         private void ShowSelectionFromDB(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Files.SelectedIndex = -1;
-
             if (sender == null)
                 return;
 
@@ -273,6 +256,16 @@ namespace Document_Organizer
 
                 UpdateDbList();
             }
+        }
+
+        private void TextBox_LostFocus_1(object sender, RoutedEventArgs e)
+        {
+            BrowseDatasheet.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void TextBox_GotFocus_1(object sender, RoutedEventArgs e)
+        {
+            BrowseDatasheet.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

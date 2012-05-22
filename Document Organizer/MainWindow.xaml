@@ -1,23 +1,24 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Document_Organizer.MainWindow"
-        Title="MainWindow" Height="700" Width="1100">
+        Title="MainWindow" Height="700" Width="900">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="Files" Grid.Row="1" SelectionChanged="ShowSelectionFromFiles"/>
-        <TreeView x:Name="ORM" Grid.Row="1" SelectedItemChanged="ShowSelectionFromDB" Grid.Column="1"/>
+        <TreeView x:Name="ORM" Grid.Row="1" SelectedItemChanged="ShowSelectionFromDB" Grid.Column="0"/>
         <DockPanel Grid.Row="1" Grid.Column="2">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
@@ -34,14 +35,32 @@
                 <TextBox x:Name="PartName" Grid.Row="1" Grid.Column="1" Margin="5"/>
 
                 <Label Grid.Row="3">Datasheet</Label>
-                <Label Grid.Row="3" Grid.Column="1" Margin="5">PLACEHOLD PLACEHOLD PLACEHOLD NEED BROWSE BUTTON?</Label>
+                <Grid Grid.Row="3" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Name="DatasheetTextbox" Margin="5" LostFocus="TextBox_LostFocus_1" GotFocus="TextBox_GotFocus_1"></TextBox>
+                    <Button Name="BrowseDatasheet" Grid.Column="1" Margin="5" Padding="2" Visibility="Collapsed">Browse</Button>
+                </Grid>
 
                 <Label Grid.Row="4">Distributer URL</Label>
-                <TextBox Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
+                <TextBox  Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
 
                 <Label Grid.Row="5">Manufacturer</Label>
-                <ComboBox x:Name="Manufacturer" DropDownOpened="UpdateManufacturersCombobox" Grid.Row="6" Grid.Column="1" Margin="5"/>
+                <ComboBox x:Name="Manufacturer" DropDownOpened="UpdateManufacturersCombobox" Grid.Row="5" Grid.Column="1" Margin="5"/>
 
+                <Label Grid.Row="6">Manufacturer URL</Label>
+                <TextBox Grid.Row="6" Grid.Column="1" Margin="5"></TextBox>
+
+                <Label Grid.Row="7">Inventory</Label>
+                <Grid Grid.Row="7" Grid.Column="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width=".5*" />
+                    </Grid.ColumnDefinitions>
+                    <xctk:IntegerUpDown FormatString="N0" Increment="1" Minimum="0" Value="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
+                </Grid>
             </Grid>
 
             <Grid DockPanel.Dock="Bottom">
