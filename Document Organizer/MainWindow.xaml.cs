@@ -31,18 +31,31 @@ namespace Document_Organizer
 {
     public partial class MainWindow : Window
     {
+        private OrganizerContext context;
+
         public MainWindow()
         {
             InitializeComponent();
-            this.Loaded += MainWindow_Loaded;
+            this.Loaded += WindowLoaded;
+            this.Closing += WindowClosing;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            this.context.Dispose();
+        }
+
+        private void WindowLoaded(object sender, RoutedEventArgs e)
         {
             Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
+            context = new OrganizerContext();
+            context.Manufacturers.Load();
+            //context.Datasheets.Load();
+            //context.Parts.Load();
+            this.DataContext = context.Manufacturers.Local;
+            ORM.ItemsSource = context.Manufacturers.Local;
 
             SetPDFPath();
-            UpdateDbList();
         }
 
         private void SetPDFPath()
@@ -71,91 +84,19 @@ namespace Document_Organizer
             }
         }
 
-        private void UpdateDbList()
-        {
-            ORM.Items.Clear();
-
-            // TODO: Need to be able to update this list without clearing the items
-            //! ^^ AKA USE DATABINDING
-
-            Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
-            using (var context = new OrganizerContext())
-            {
-                foreach (var manufacturer in context.Manufacturers)
-                {
-                    TreeViewItem folderItem = new TreeViewItem();
-                    folderItem.Header = manufacturer.Name;
-                    foreach (var part in manufacturer.Parts)
-                    {
-                        TreeViewItem partItem = new TreeViewItem();
-                        partItem.Header = part.PartName;
-                        folderItem.Items.Add(partItem);
-                    }
-                    ORM.Items.Add(folderItem);
-                }
-            }
-        }
-
         string mainPath;
 
         private void SaveEntry(object sender, RoutedEventArgs e)
         {
-            using (var context = new OrganizerContext())
+            Manufacturer sel = ORM.SelectedItem as Manufacturer;
+            if (sel != null)
             {
-                string desiredFileName = (string)(ORM.SelectedValue);
-
-                var thisPart = (from p in context.Parts
-                                where p.Datasheet.FileName == desiredFileName
-                                select p).FirstOrDefault();
-
-                bool newPDF = false;
-                if (thisPart == null)
-                {
-                    thisPart = new Part();
-                    newPDF = true;
-                }
-
-                if ((string)(Manufacturer.SelectedItem) == "Add manufacturer...")
-                {
-                    string folderName = AddManufacturer();
-                    if (folderName == null)
-                        return;
-
-                    // Create a new folder
-                    Manufacturer f = new Manufacturer();
-                    f.Name = folderName;
-                    context.Manufacturers.Add(f);
-
-                    // Add this PDF to the new folder
-                    thisPart.Manufacturer = f;
-
-                    // Select new folder in combobox
-                    Manufacturer.SelectedIndex = Manufacturer.Items.IndexOf(f.Name);
-                }
-                else
-                    thisPart.Manufacturer = (from f in context.Manufacturers
-                                             where f.Name == (string)Manufacturer.SelectedValue
-                                             select f).FirstOrDefault();
-
-                if (thisPart.Manufacturer == null)
-                    thisPart.Manufacturer = (from f in context.Manufacturers
-                                             where f.Name == "Default"
-                                             select f).First();
-
-                thisPart.PartName = PartName.Text;
-
-                if (newPDF)
-                {
-                    thisPart.Datasheet = new Datasheet();
-                    thisPart.Datasheet.FileName = (string)DatasheetTextbox.Text;
-
-                    context.Parts.Add(thisPart);
-                }
-
-                int changes = context.SaveChanges();
-
-                UpdateDbList();
+                Part newPart = new Part();
+                newPart.Manufacturer = ((Manufacturer)ORM.SelectedItem);
+                newPart.PartName = "BLAH";
+                context.Parts.Add(newPart);
             }
+            context.SaveChanges();
         }
 
         private void ShowSelectionFromFiles(object sender, SelectionChangedEventArgs e)
@@ -168,12 +109,12 @@ namespace Document_Organizer
 
                 if (thisPdf == null)
                 {
-                    PartName.Text = "";
+                    //PartName.Text = "";
                     Manufacturer.SelectedIndex = -1;
                     return;
                 }
 
-                PartName.Text = thisPdf.PartName;
+                //PartName.Text = thisPdf.PartName;
                 Manufacturer.SelectedIndex = -1;
             }
         }
@@ -203,7 +144,7 @@ namespace Document_Organizer
                 if (thisPdf == null)
                     return;
 
-                PartName.Text = thisPdf.PartName;
+                //PartName.Text = thisPdf.PartName;
                 Manufacturer.SelectedValue = thisPdf.Manufacturer.Name;
             }
         }
@@ -253,8 +194,6 @@ namespace Document_Organizer
                 context.Datasheets.Remove(thisPdf);
 
                 int changes = context.SaveChanges();
-
-                UpdateDbList();
             }
         }
 

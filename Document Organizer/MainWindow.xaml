@@ -13,7 +13,18 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <TreeView x:Name="ORM" Grid.Row="1" SelectedItemChanged="ShowSelectionFromDB" Grid.Column="0"/>
+        <TreeView x:Name="ORM" Grid.Row="1" SelectedItemChanged="ShowSelectionFromDB" Grid.Column="0">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Parts}">
+                    <TextBlock Text="{Binding Path=Name}" />
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Part.PartName}" />
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
         <DockPanel Grid.Row="1" Grid.Column="2">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
@@ -32,7 +43,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="1">Name</Label>
-                <TextBox x:Name="PartName" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                <TextBox Text="{Binding Path=Part.PartName}"  Grid.Row="1" Grid.Column="1" Margin="5"/>
 
                 <Label Grid.Row="3">Datasheet</Label>
                 <Grid Grid.Row="3" Grid.Column="1">
@@ -40,18 +51,18 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Name="DatasheetTextbox" Margin="5" LostFocus="TextBox_LostFocus_1" GotFocus="TextBox_GotFocus_1"></TextBox>
+                    <TextBox Name="DatasheetTextbox" Margin="5" Text="{Binding Path=Part.Datasheet.FileName}" LostFocus="TextBox_LostFocus_1" GotFocus="TextBox_GotFocus_1"></TextBox>
                     <Button Name="BrowseDatasheet" Grid.Column="1" Margin="5" Padding="2" Visibility="Collapsed">Browse</Button>
                 </Grid>
 
                 <Label Grid.Row="4">Distributer URL</Label>
-                <TextBox  Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
+                <TextBox Text="{Binding Path=Part.DistributorURL}" Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
 
                 <Label Grid.Row="5">Manufacturer</Label>
                 <ComboBox x:Name="Manufacturer" DropDownOpened="UpdateManufacturersCombobox" Grid.Row="5" Grid.Column="1" Margin="5"/>
 
                 <Label Grid.Row="6">Manufacturer URL</Label>
-                <TextBox Grid.Row="6" Grid.Column="1" Margin="5"></TextBox>
+                <TextBox Text="{Binding Path=Part.ManufacturerURL}" Grid.Row="6" Grid.Column="1" Margin="5" />
 
                 <Label Grid.Row="7">Inventory</Label>
                 <Grid Grid.Row="7" Grid.Column="1" >
@@ -59,7 +70,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width=".5*" />
                     </Grid.ColumnDefinitions>
-                    <xctk:IntegerUpDown FormatString="N0" Increment="1" Minimum="0" Value="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
+                    <xctk:IntegerUpDown Value="{Binding Path=Part.QuantityAvailable}" FormatString="N0" Increment="1" Minimum="0" DefaultValue="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
                 </Grid>
             </Grid>
 

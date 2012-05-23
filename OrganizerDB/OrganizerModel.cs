@@ -15,6 +15,8 @@ namespace OrganizerDB
 
         public string DistributorURL { get; set; }
 
+        public string ManufacturerURL { get; set; }
+
         public int QuantityAvailable { get; set; }
 
         public int? DatasheetID { get; set; }
