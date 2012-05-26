@@ -88,39 +88,18 @@ namespace Document_Organizer
 
         string mainPath;
 
-        private void SaveEntry(object sender, RoutedEventArgs e)
-        {
-            // Quick test
-            Part newP = new Part();
-            newP.PartName = "blah test";
-            context.Manufacturers.FirstOrDefault().Parts.Add(newP);
-
-            //Manufacturer sel = ORM.SelectedItem as Manufacturer;
-            //if (sel != null)
-            //{
-            //    Part newPart = new Part();
-            //    newPart.Manufacturer = ((Manufacturer)ORM.SelectedItem);
-            //    newPart.PartName = "BLAH";
-            //    context.Parts.Add(newPart);
-            //}
-            context.SaveChanges();
-        }
-
         private void UpdateManufacturersCombobox(object sender, EventArgs e)
         {
             Manufacturer.Items.Clear();
 
-            using (var context = new OrganizerContext())
+            var manufacturers = context.Manufacturers;
+
+            foreach (Manufacturer manufacturer in manufacturers)
             {
-                var manufacturers = context.Manufacturers;
-
-                foreach (Manufacturer manufacturer in manufacturers)
-                {
-                    Manufacturer.Items.Add(manufacturer.Name);
-                }
-
-                Manufacturer.Items.Add("Add manufacturer...");
+                Manufacturer.Items.Add(manufacturer);
             }
+
+            Manufacturer.Items.Add("Add manufacturer...");
         }
 
         private string AddManufacturer()
@@ -134,24 +113,40 @@ namespace Document_Organizer
                 return null;
         }
 
+        private void SaveEntry(object sender, RoutedEventArgs e)
+        {
+            if (Manufacturer.Text == "Add manufacturer...")
+            {
+                Manufacturer man = new Manufacturer() { Name = AddManufacturer() };
+                Manufacturer.SelectedItem = man;
+            }
+
+            if (ORM.SelectedItem is Part)
+            {
+                context.SaveChanges();
+            }
+            else if (ORM.SelectedItem is Manufacturer)
+            {
+                // TODO Something here...
+            }
+        }
+
         private void DeleteEntry(object sender, RoutedEventArgs e)
         {
-            //if (ORM.SelectedIndex == -1)
-            //    return;
-
-            using (var context = new OrganizerContext())
+            if (ORM.SelectedItem is Part)
             {
-                var thisPdf = (from p in context.Datasheets
-                               where p.FileName == (string)(ORM.SelectedValue)
-                               select p).FirstOrDefault();
-
-                if (thisPdf == null)
-                    return;
-
-                context.Datasheets.Remove(thisPdf);
-
-                int changes = context.SaveChanges();
+                Part selected = (Part)ORM.SelectedItem;
+                Manufacturer man = selected.Manufacturer;
+                man.Parts.Remove(selected);
             }
+            else if (ORM.SelectedItem is Manufacturer)
+            {
+                // TODO: Make sure the user wants to delete all entries for this manufacturer
+                Manufacturer selected = (Manufacturer)ORM.SelectedItem;
+                context.Manufacturers.Remove(selected);
+            }
+
+            context.SaveChanges();
         }
 
         private void TextBox_LostFocus_1(object sender, RoutedEventArgs e)
