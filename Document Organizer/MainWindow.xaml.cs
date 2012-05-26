@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -88,65 +90,20 @@ namespace Document_Organizer
 
         private void SaveEntry(object sender, RoutedEventArgs e)
         {
-            Manufacturer sel = ORM.SelectedItem as Manufacturer;
-            if (sel != null)
-            {
-                Part newPart = new Part();
-                newPart.Manufacturer = ((Manufacturer)ORM.SelectedItem);
-                newPart.PartName = "BLAH";
-                context.Parts.Add(newPart);
-            }
+            // Quick test
+            Part newP = new Part();
+            newP.PartName = "blah test";
+            context.Manufacturers.FirstOrDefault().Parts.Add(newP);
+
+            //Manufacturer sel = ORM.SelectedItem as Manufacturer;
+            //if (sel != null)
+            //{
+            //    Part newPart = new Part();
+            //    newPart.Manufacturer = ((Manufacturer)ORM.SelectedItem);
+            //    newPart.PartName = "BLAH";
+            //    context.Parts.Add(newPart);
+            //}
             context.SaveChanges();
-        }
-
-        private void ShowSelectionFromFiles(object sender, SelectionChangedEventArgs e)
-        {
-            using (var context = new OrganizerContext())
-            {
-                var thisPdf = (from p in context.Parts
-                               where p.Datasheet.FileName == (string)(((ListBox)sender).SelectedValue)
-                               select p).FirstOrDefault();
-
-                if (thisPdf == null)
-                {
-                    //PartName.Text = "";
-                    Manufacturer.SelectedIndex = -1;
-                    return;
-                }
-
-                //PartName.Text = thisPdf.PartName;
-                Manufacturer.SelectedIndex = -1;
-            }
-        }
-
-        private void ShowSelectionFromDB(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            if (sender == null)
-                return;
-
-            TreeView _sender = sender as TreeView;
-            if (_sender == null)
-                return;
-
-            string selectedName = null;
-
-            if (_sender.SelectedItem is string)
-                selectedName = (string)_sender.SelectedItem;
-            else if (_sender.SelectedItem is TreeViewItem)
-                selectedName = (string)((TreeViewItem)_sender.SelectedItem).Header;
-
-            using (var context = new OrganizerContext())
-            {
-                var thisPdf = (from p in context.Parts
-                               where p.PartName == selectedName
-                               select p).FirstOrDefault();
-
-                if (thisPdf == null)
-                    return;
-
-                //PartName.Text = thisPdf.PartName;
-                Manufacturer.SelectedValue = thisPdf.Manufacturer.Name;
-            }
         }
 
         private void UpdateManufacturersCombobox(object sender, EventArgs e)

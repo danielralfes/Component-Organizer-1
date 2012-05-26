@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace OrganizerDB
 {
-    public class Part
+    public class Part : INotifyPropertyChanged
     {
         // Primary key
         [Key]
@@ -26,18 +27,22 @@ namespace OrganizerDB
         public virtual Datasheet Datasheet { get; set; }
 
         public virtual Manufacturer Manufacturer { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    public class Datasheet
+    public class Datasheet : INotifyPropertyChanged
     {
         // Primary key
         [Key]
         public int DatasheetID { get; set; }
 
         public string FileName { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    public class Manufacturer
+    public class Manufacturer : INotifyPropertyChanged
     {
         // Primary key
         [Key]
@@ -47,5 +52,7 @@ namespace OrganizerDB
 
         // Navigation property
         public virtual ICollection<Part> Parts { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

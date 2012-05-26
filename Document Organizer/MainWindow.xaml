@@ -23,9 +23,9 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <TreeView x:Name="ORM" Grid.Row="1" SelectedItemChanged="ShowSelectionFromDB" Grid.Column="0">
+        <TreeView x:Name="ORM" Grid.Row="1" Grid.Column="0">
         </TreeView>
-        <DockPanel Grid.Row="1" Grid.Column="2">
+        <DockPanel Grid.Row="1" Grid.Column="2" DataContext="{Binding ElementName=ORM, Path=SelectedItem}">
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -43,7 +43,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="1">Name</Label>
-                <TextBox Text="{Binding Path=Part.PartName}"  Grid.Row="1" Grid.Column="1" Margin="5"/>
+                <TextBox Text="{Binding Path=PartName}"  Grid.Row="1" Grid.Column="1" Margin="5"/>
 
                 <Label Grid.Row="3">Datasheet</Label>
                 <Grid Grid.Row="3" Grid.Column="1">
