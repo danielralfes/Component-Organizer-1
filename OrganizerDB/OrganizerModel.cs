@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -51,7 +52,7 @@ namespace OrganizerDB
         public string Name { get; set; }
 
         // Navigation property
-        public virtual ICollection<Part> Parts { get; private set; }
+        public virtual ObservableCollection<Part> Parts { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

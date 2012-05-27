@@ -127,7 +127,9 @@ namespace Document_Organizer
             }
             else if (ORM.SelectedItem is Manufacturer)
             {
-                // TODO Something here...
+                Manufacturer man = (Manufacturer)ORM.SelectedItem;
+                Part newPart = new Part();
+                man.Parts.Add(newPart);
             }
         }
 
@@ -142,8 +144,8 @@ namespace Document_Organizer
             else if (ORM.SelectedItem is Manufacturer)
             {
                 // TODO: Make sure the user wants to delete all entries for this manufacturer
-                Manufacturer selected = (Manufacturer)ORM.SelectedItem;
-                context.Manufacturers.Remove(selected);
+                //Manufacturer selected = (Manufacturer)ORM.SelectedItem;
+                //context.Manufacturers.Remove(selected);
             }
 
             context.SaveChanges();
