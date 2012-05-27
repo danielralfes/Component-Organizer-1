@@ -4,7 +4,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:OrganizerDB;assembly=OrganizerDB"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Document_Organizer.MainWindow"
-        Title="MainWindow" Height="700" Width="900">
+        Title="Part Tracker" Height="500" Width="900">
     <Window.Resources>
         <HierarchicalDataTemplate DataType="{x:Type local:Part}">
             <TextBlock Text="{Binding Path=PartName}" />
@@ -16,7 +16,6 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
