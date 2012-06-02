@@ -168,7 +168,7 @@
       <Project>{d96ed505-5096-4484-9c46-f002e4854690}</Project>
       <Name>OrganizerDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TextInputDialog\WPFEx.csproj">
+    <ProjectReference Include="..\WPFEx\WPFEx.csproj">
       <Project>{03794eb1-4ead-4035-972a-faae1960983f}</Project>
       <Name>WPFEx</Name>
     </ProjectReference>
