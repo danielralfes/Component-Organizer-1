@@ -21,10 +21,6 @@ using WPFEx;
  * 5: Add searching
  * 6: ...
  *
- * > Manufacturer
- *    > IC Type
- *       > IC
- *
  * n: Work on GUI & UX
  *
  */
@@ -34,6 +30,7 @@ namespace Document_Organizer
     public partial class MainWindow : Window
     {
         private OrganizerContext context;
+        string mainPath;
 
         public MainWindow()
         {
@@ -42,22 +39,73 @@ namespace Document_Organizer
             this.Closing += WindowClosing;
         }
 
-        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        private string AddManufacturer()
         {
-            this.context.Dispose();
+            TextInputDialog manufacturerName = new TextInputDialog();
+            manufacturerName.Title = "Please enter a manufacturer name";
+            manufacturerName.ShowDialog();
+            if (manufacturerName.OkClicked)
+                return manufacturerName.Text;
+            else
+                return null;
         }
 
-        private void WindowLoaded(object sender, RoutedEventArgs e)
+        private void DeleteEntry(object sender, RoutedEventArgs e)
         {
-            Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
-            context = new OrganizerContext();
-            context.Manufacturers.Load();
-            //context.Datasheets.Load();
-            //context.Parts.Load();
-            this.DataContext = context.Manufacturers.Local;
-            ORM.ItemsSource = context.Manufacturers.Local;
+            if (ORM.SelectedItem is Part)
+            {
+                Part selected = (Part)ORM.SelectedItem;
+                context.Parts.Remove(selected);
+                //Manufacturer man = selected.Manufacturer;
+                //man.Parts.Remove(selected);
+            }
+            else if (ORM.SelectedItem is Manufacturer)
+            {
+                // TODO: Make sure the user wants to delete all entries for this manufacturer
+                Manufacturer selected = (Manufacturer)ORM.SelectedItem;
+                if (selected.Parts.Count > 0)
+                {
+                    MessageBoxResult mr = MessageBox.Show("Are you sure you want to delete this manufacturer and ALL of this manufacturer's parts?",
+                        "Delete manufacturer", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
 
-            SetPDFPath();
+                    if(mr == MessageBoxResult.Yes)
+                        context.Manufacturers.Remove(selected);
+                }
+                else
+                {
+                    context.Manufacturers.Remove(selected);
+                }
+            }
+
+            context.SaveChanges();
+        }
+
+        private void SaveEntry(object sender, RoutedEventArgs e)
+        {
+            if (Manufacturer.Text == "Add manufacturer...")
+            {
+                Manufacturer man = new Manufacturer() { Name = AddManufacturer() };
+                context.Manufacturers.Add(man);
+                Manufacturer.SelectedItem = man;
+
+                if (ORM.SelectedItem is Part)
+                {
+                    Part selected = (Part)ORM.SelectedItem;
+                    selected.Manufacturer = man;
+                }
+            }
+
+            if (ORM.SelectedItem is Manufacturer)
+            {
+                Manufacturer man = (Manufacturer)ORM.SelectedItem;
+                Part newPart = new Part();
+                newPart.Manufacturer = man;
+                context.Parts.Add(newPart);
+
+                // TODO: Add part data
+            }
+
+            context.SaveChanges();
         }
 
         private void SetPDFPath()
@@ -86,7 +134,15 @@ namespace Document_Organizer
             }
         }
 
-        string mainPath;
+        private void TextBox_GotFocus_1(object sender, RoutedEventArgs e)
+        {
+            BrowseDatasheet.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void TextBox_LostFocus_1(object sender, RoutedEventArgs e)
+        {
+            BrowseDatasheet.Visibility = System.Windows.Visibility.Collapsed;
+        }
 
         private void UpdateManufacturersCombobox(object sender, EventArgs e)
         {
@@ -102,63 +158,22 @@ namespace Document_Organizer
             Manufacturer.Items.Add("Add manufacturer...");
         }
 
-        private string AddManufacturer()
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            TextInputDialog manufacturerName = new TextInputDialog();
-            manufacturerName.Title = "Please enter a manufacturer name";
-            manufacturerName.ShowDialog();
-            if (manufacturerName.OkClicked)
-                return manufacturerName.Text;
-            else
-                return null;
+            this.context.Dispose();
         }
 
-        private void SaveEntry(object sender, RoutedEventArgs e)
+        private void WindowLoaded(object sender, RoutedEventArgs e)
         {
-            if (Manufacturer.Text == "Add manufacturer...")
-            {
-                Manufacturer man = new Manufacturer() { Name = AddManufacturer() };
-                Manufacturer.SelectedItem = man;
-            }
+            Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
+            context = new OrganizerContext();
+            context.Manufacturers.Load();
+            //context.Datasheets.Load();
+            //context.Parts.Load();
+            this.DataContext = context.Manufacturers.Local;
+            ORM.ItemsSource = context.Manufacturers.Local;
 
-            if (ORM.SelectedItem is Part)
-            {
-                context.SaveChanges();
-            }
-            else if (ORM.SelectedItem is Manufacturer)
-            {
-                Manufacturer man = (Manufacturer)ORM.SelectedItem;
-                Part newPart = new Part();
-                man.Parts.Add(newPart);
-            }
-        }
-
-        private void DeleteEntry(object sender, RoutedEventArgs e)
-        {
-            if (ORM.SelectedItem is Part)
-            {
-                Part selected = (Part)ORM.SelectedItem;
-                Manufacturer man = selected.Manufacturer;
-                man.Parts.Remove(selected);
-            }
-            else if (ORM.SelectedItem is Manufacturer)
-            {
-                // TODO: Make sure the user wants to delete all entries for this manufacturer
-                //Manufacturer selected = (Manufacturer)ORM.SelectedItem;
-                //context.Manufacturers.Remove(selected);
-            }
-
-            context.SaveChanges();
-        }
-
-        private void TextBox_LostFocus_1(object sender, RoutedEventArgs e)
-        {
-            BrowseDatasheet.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void TextBox_GotFocus_1(object sender, RoutedEventArgs e)
-        {
-            BrowseDatasheet.Visibility = System.Windows.Visibility.Visible;
+            SetPDFPath();
         }
     }
 }
