@@ -1,11 +1,11 @@
-Purpose
-	Provide a means of organizing datasheets and tagging them with metadata. Currently, the only metadata that can be added is a "friendly" name.
+Built to track electrical components along with datasheet URLs, inventory, and other metadata.
 
 Planned improvements
-	More metadata (manufacturer/publisher, product name, documentation URL)
-	Inventory system (Additional metadata: distributer product number, price, inventory levels)
-	Better GUI
-	
+	More metadata
+		Documentation URL
+		Distributer list & product numbers
+		Price
+
 Possible future additions
 	Custom fields
 
@@ -18,5 +18,3 @@ To run
 To build
 	Visual Studio 2011
 	NuGet
-	Notify Property Weaver
-		http://visualstudiogallery.msdn.microsoft.com/bd351303-db8c-4771-9b22-5e51524fccd3
