@@ -108,6 +108,7 @@ namespace Document_Organizer
             context.SaveChanges();
         }
 
+        [Obsolete("Remove this from the project")]
         private void SetPDFPath()
         {
             if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.Path))
@@ -136,12 +137,12 @@ namespace Document_Organizer
 
         private void TextBox_GotFocus_1(object sender, RoutedEventArgs e)
         {
-            BrowseDatasheet.Visibility = System.Windows.Visibility.Visible;
+            //BrowseDatasheet.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void TextBox_LostFocus_1(object sender, RoutedEventArgs e)
         {
-            BrowseDatasheet.Visibility = System.Windows.Visibility.Collapsed;
+            //BrowseDatasheet.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void UpdateManufacturersCombobox(object sender, EventArgs e)
@@ -174,6 +175,31 @@ namespace Document_Organizer
             ORM.ItemsSource = context.Manufacturers.Local;
 
             SetPDFPath();
+        }
+
+        private void BrowseDatasheet_Click_1(object sender, RoutedEventArgs e)
+        {
+            FileSelectionDialog datasheetFilebroser = new FileSelectionDialog();
+            datasheetFilebroser.Title = "Please select the datasheet";
+            datasheetFilebroser.DefaultPath = mainPath;
+            datasheetFilebroser.CheckFileExists = true;
+            datasheetFilebroser.ShowDialog();
+            if (datasheetFilebroser.OkClicked)
+            {
+                if(ORM.SelectedItem is Part)
+                {
+                    Part sel = (Part)ORM.SelectedItem;
+                    Datasheet ds = sel.Datasheet;
+                    if(ds == null)
+                    {
+                        ds = new Datasheet();
+                        context.Datasheets.Add(ds);
+                        sel.Datasheet = ds;
+                    }
+
+                    sel.Datasheet.FileName = datasheetFilebroser.FileName;
+                }
+            }
         }
     }
 }

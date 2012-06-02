@@ -4,7 +4,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:OrganizerDB;assembly=OrganizerDB"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Document_Organizer.MainWindow"
-        Title="Part Tracker" Height="500" Width="900">
+        Title="Component Organizer" Height="500" Width="900">
     <Window.Resources>
         <HierarchicalDataTemplate DataType="{x:Type local:Part}">
             <TextBlock Text="{Binding Path=PartName}" />
@@ -55,7 +55,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBox Name="DatasheetTextbox" Margin="5" Text="{Binding Path=Datasheet.FileName}" LostFocus="TextBox_LostFocus_1" GotFocus="TextBox_GotFocus_1"></TextBox>
-                    <Button Name="BrowseDatasheet" Grid.Column="1" Margin="5" Padding="2" Visibility="Collapsed">Browse</Button>
+                    <Button Name="BrowseDatasheet" Grid.Column="1" Margin="5" Padding="2" Click="BrowseDatasheet_Click_1">Browse</Button>
                 </Grid>
 
                 <Label Grid.Row="4">Distributer URL</Label>
