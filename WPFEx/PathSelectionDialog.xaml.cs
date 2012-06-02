@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace WPFEx
@@ -59,6 +60,7 @@ namespace WPFEx
 
         private bool _OkClicked = false;
 
+        [Obsolete("TODO: Use a standard enum")]
         public bool OkClicked
         {
             get

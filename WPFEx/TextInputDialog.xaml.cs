@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace WPFEx
@@ -22,17 +23,29 @@ namespace WPFEx
             Close();
         }
 
-        private void CancelClicked(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Handles user cancelling input
+        /// </summary>
+        private void Cancel()
         {
+            _OkClicked = false;
             _Text = UserText.Text;
             Close();
         }
 
-        private void CloseClicked(object sender, RoutedEventArgs e)
+        private void CancelClicked(object sender, RoutedEventArgs e)
         {
-            Close();
+            Cancel();
         }
 
+        private void CloseClicked(object sender, RoutedEventArgs e)
+        {
+            Cancel();
+        }
+
+        /// <summary>
+        /// Handles dragging on the chromeless window
+        /// </summary>
         private void DragHandler(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
@@ -40,6 +53,9 @@ namespace WPFEx
 
         public string _Text;
 
+        /// <summary>
+        /// Gets the contents of the user input textbox
+        /// </summary>
         public string Text
         {
             get
@@ -50,12 +66,27 @@ namespace WPFEx
 
         private bool _OkClicked = false;
 
+        /// <summary>
+        /// True if the user clicked the OK button
+        /// </summary>
+        [Obsolete("Use DialogResult() instead")]
         public bool OkClicked
         {
             get
             {
                 return _OkClicked;
             }
+        }
+
+        /// <summary>
+        /// Returns the user's button selection
+        /// </summary>
+        /// <returns>OK or Cancel</returns>
+        public MessageBoxResult DialogResult()
+        {
+            if (_OkClicked)
+                return MessageBoxResult.OK;
+            return MessageBoxResult.Cancel;
         }
     }
 }
