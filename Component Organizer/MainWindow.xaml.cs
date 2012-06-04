@@ -25,7 +25,7 @@ using WPFEx;
  *
  */
 
-namespace Document_Organizer
+namespace Component_Organizer
 {
     public partial class MainWindow : Window
     {
