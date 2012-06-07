@@ -23,12 +23,15 @@
 
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<Component Id="ProductComponent">
-				<!-- TODO: Insert files, registry keys, and other resources here. -->
-          <File Id="MyApplicationFile" Name="$(var.Component Organizer.TargetFileName)" Source="$(var.Component Organizer.TargetPath)"
-          DiskId="1" KeyPath="yes" />
-			</Component>
+      <Component Id="MainExecutable">
+        <File Id="ComponentOrganizerEXE" Name="$(var.Component Organizer.TargetFileName)" Source="$(var.Component Organizer.TargetPath)" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="OrganizerDB">
+        <File Id="OrganizerDBDLL" Name="$(var.OrganizerDB.TargetFileName)" Source="$(var.OrganizerDB.TargetPath)" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="WPFEx">
+        <File Id="WPFExDLL" Name="$(var.WPFEx.TargetFileName)" Source="$(var.WPFEx.TargetPath)" DiskId="1" KeyPath="yes" />
+      </Component>
 		</ComponentGroup>
 	</Fragment>
 </Wix>
