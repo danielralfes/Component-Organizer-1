@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="setup" Language="1033" Version="0.1.0.0" Manufacturer="GeorgeHahn" UpgradeCode="a7bd4003-7f20-4390-97de-fac53df7af81">
+	<Product Id="3BF710FA-E421-42EE-B04B-E78A95FE482D" Name="setup" Language="1033" Version="0.1.0.0" Manufacturer="GeorgeHahn" UpgradeCode="a7bd4003-7f20-4390-97de-fac53df7af81">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <Media Id='1' Cabinet='setup.cab' EmbedCab='yes' />
@@ -9,26 +9,53 @@
 		
 
 		<Feature Id="ProductFeature" Title="setup" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="MainComponents" />
+      <ComponentRef Id='ProgramMenuDir' />
 		</Feature>
 	</Product>
 
+  <!-- Directories -->
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLFOLDER" Name="$(var.SolutionName)" />
 			</Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="Programs" >
+        <Directory Id="ProgramMenuDir" Name="$(var.SolutionName)">
+        </Directory>
+      </Directory>
+      
+      <Directory Id="DesktopFolder" Name="Desktop" />
 		</Directory>
 	</Fragment>
 
+  <!-- Shortcuts -->
+  <Fragment>
+    <Component Id="ProgramMenuDir" Guid="B724DC42-E33A-4C5E-AAE2-25C2D8756667" Directory="ProgramMenuDir">
+      <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
+      <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
+    </Component>
+
+    <!-- TODO: Change this to an ICO -->
+    <Icon Id="CO_Icon.exe" SourceFile="$(var.Component Organizer.TargetPath)" />
+  </Fragment>
+
+  <!-- Program binaries -->
 	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+		<ComponentGroup Id="MainComponents" Directory="INSTALLFOLDER">
       <Component Id="MainExecutable">
         <File Id="ComponentOrganizerEXE" Name="$(var.Component Organizer.TargetFileName)" Source="$(var.Component Organizer.TargetPath)" DiskId="1" KeyPath="yes" />
+        <Shortcut Id="startmenuComponentOrganizer" Directory="ProgramMenuDir" Name="Component Organizer" WorkingDirectory="INSTALLDIR"
+                  Icon="CO_Icon.exe" IconIndex="0" Advertise="yes" />
+        <Shortcut Id="desktopComponentOrganizer" Directory="DesktopFolder" Name="Component Organizer" WorkingDirectory="INSTALLDIR"
+                  Icon="CO_Icon.exe" IconIndex="0" Advertise="yes" />
       </Component>
+      
       <Component Id="OrganizerDB">
         <File Id="OrganizerDBDLL" Name="$(var.OrganizerDB.TargetFileName)" Source="$(var.OrganizerDB.TargetPath)" DiskId="1" KeyPath="yes" />
       </Component>
+      
       <Component Id="WPFEx">
         <File Id="WPFExDLL" Name="$(var.WPFEx.TargetFileName)" Source="$(var.WPFEx.TargetPath)" DiskId="1" KeyPath="yes" />
       </Component>
