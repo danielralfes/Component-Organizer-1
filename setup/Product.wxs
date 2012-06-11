@@ -38,7 +38,7 @@
     </Component>
 
     <!-- TODO: Change this to an ICO -->
-    <Icon Id="CO_Icon.exe" SourceFile="$(var.Component Organizer.TargetPath)" />
+    <Icon Id="icon.ico" SourceFile="$(var.SolutionDir)\icon.ico" />
   </Fragment>
 
   <!-- Program binaries -->
@@ -47,9 +47,9 @@
       <Component Id="MainExecutable">
         <File Id="ComponentOrganizerEXE" Name="$(var.Component Organizer.TargetFileName)" Source="$(var.Component Organizer.TargetPath)" DiskId="1" KeyPath="yes" />
         <Shortcut Id="startmenuComponentOrganizer" Directory="ProgramMenuDir" Name="Component Organizer" WorkingDirectory="INSTALLDIR"
-                  Icon="CO_Icon.exe" IconIndex="0" Advertise="yes" />
+                  Icon="icon.ico" IconIndex="0" Advertise="yes" />
         <Shortcut Id="desktopComponentOrganizer" Directory="DesktopFolder" Name="Component Organizer" WorkingDirectory="INSTALLDIR"
-                  Icon="CO_Icon.exe" IconIndex="0" Advertise="yes" />
+                  Icon="icon.ico" IconIndex="0" Advertise="yes" />
       </Component>
       
       <Component Id="OrganizerDB">
