@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="3BF710FA-E421-42EE-B04B-E78A95FE482D" Name="setup" Language="1033" Version="0.1.0.0" Manufacturer="GeorgeHahn" UpgradeCode="a7bd4003-7f20-4390-97de-fac53df7af81">
+	<Product Id="3BF710FA-E421-42EE-B04B-E78A95FE482D" Name="Component Organizer" Language="1033" Version="0.1.0.0" Manufacturer="GeorgeHahn" UpgradeCode="a7bd4003-7f20-4390-97de-fac53df7af81">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    
+    <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message="The .NET Framework 4.5 must be installed">
+      Installed OR NETFRAMEWORK45
+    </Condition>
 
     <Media Id='1' Cabinet='setup.cab' EmbedCab='yes' />
     
