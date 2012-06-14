@@ -17,6 +17,14 @@ namespace OrganizerDB
 
         public string DistributorURL { get; set; }
 
+        public string DistributorPartNumber { get; set; }
+
+        public float? Price { get; set; }
+
+        public int? Pins { get; set; }
+
+        public string Package { get; set; }
+
         public string ManufacturerURL { get; set; }
 
         public int QuantityAvailable { get; set; }
