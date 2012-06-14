@@ -30,7 +30,6 @@ namespace Component_Organizer
     public partial class MainWindow : Window
     {
         private OrganizerContext context;
-        string mainPath;
 
         public MainWindow()
         {
@@ -108,33 +107,6 @@ namespace Component_Organizer
             context.SaveChanges();
         }
 
-        [Obsolete("Remove this from the project")]
-        private void SetPDFPath()
-        {
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.Path))
-            {
-                // If the user has set a default path in the past, use it
-                mainPath = Properties.Settings.Default.Path;
-            }
-            else
-            {
-                // Otherwise, ask the user for a path
-
-                PathSelectionDialog path = new PathSelectionDialog();
-                path.Title = "Please select the root Datasheet directory";
-                path.ShowDialog();
-                if (path.OkClicked)
-                {
-                    mainPath = path.Path;
-
-                    Properties.Settings.Default.Path = mainPath;
-                    Properties.Settings.Default.Save();
-                }
-                else
-                    Close();
-            }
-        }
-
         private void TextBox_GotFocus_1(object sender, RoutedEventArgs e)
         {
             //BrowseDatasheet.Visibility = System.Windows.Visibility.Visible;
@@ -173,15 +145,12 @@ namespace Component_Organizer
             //context.Parts.Load();
             this.DataContext = context.Manufacturers.Local;
             ORM.ItemsSource = context.Manufacturers.Local;
-
-            SetPDFPath();
         }
 
         private void BrowseDatasheet_Click_1(object sender, RoutedEventArgs e)
         {
             FileSelectionDialog datasheetFilebroser = new FileSelectionDialog();
             datasheetFilebroser.Title = "Please select the datasheet";
-            datasheetFilebroser.DefaultPath = mainPath;
             datasheetFilebroser.CheckFileExists = true;
             datasheetFilebroser.ShowDialog();
             if (datasheetFilebroser.OkClicked)
