@@ -67,26 +67,17 @@ namespace WPFEx
         private bool _OkClicked = false;
 
         /// <summary>
-        /// True if the user clicked the OK button
-        /// </summary>
-        [Obsolete("Use DialogResult() instead")]
-        public bool OkClicked
-        {
-            get
-            {
-                return _OkClicked;
-            }
-        }
-
-        /// <summary>
         /// Returns the user's button selection
         /// </summary>
         /// <returns>OK or Cancel</returns>
-        public MessageBoxResult DialogResult()
+        public new MessageBoxResult DialogResult
         {
-            if (_OkClicked)
-                return MessageBoxResult.OK;
-            return MessageBoxResult.Cancel;
+            get
+            {
+                if (_OkClicked)
+                    return MessageBoxResult.OK;
+                return MessageBoxResult.Cancel;
+            }
         }
     }
 }

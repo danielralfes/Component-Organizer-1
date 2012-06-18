@@ -60,12 +60,17 @@ namespace WPFEx
 
         private bool _OkClicked = false;
 
-        [Obsolete("TODO: Use a standard enum")]
-        public bool OkClicked
+        /// <summary>
+        /// Returns the user's button selection
+        /// </summary>
+        /// <returns>OK or Cancel</returns>
+        public new MessageBoxResult DialogResult
         {
             get
             {
-                return _OkClicked;
+                if (_OkClicked)
+                    return MessageBoxResult.OK;
+                return MessageBoxResult.Cancel;
             }
         }
     }

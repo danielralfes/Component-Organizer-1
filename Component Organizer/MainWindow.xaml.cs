@@ -43,7 +43,7 @@ namespace Component_Organizer
             TextInputDialog manufacturerName = new TextInputDialog();
             manufacturerName.Title = "Please enter a manufacturer name";
             manufacturerName.ShowDialog();
-            if (manufacturerName.OkClicked)
+            if (manufacturerName.DialogResult == MessageBoxResult.OK)
                 return manufacturerName.Text;
             else
                 return null;
@@ -153,7 +153,7 @@ namespace Component_Organizer
             datasheetFilebroser.Title = "Please select the datasheet";
             datasheetFilebroser.CheckFileExists = true;
             datasheetFilebroser.ShowDialog();
-            if (datasheetFilebroser.OkClicked)
+            if (datasheetFilebroser.DialogResult == MessageBoxResult.OK)
             {
                 if(ORM.SelectedItem is Part)
                 {
