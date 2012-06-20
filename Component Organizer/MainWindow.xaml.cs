@@ -30,12 +30,14 @@ namespace Component_Organizer
     public partial class MainWindow : Window
     {
         private OrganizerContext context;
+        OctoPartFetcher lookup;
 
         public MainWindow()
         {
             InitializeComponent();
             this.Loaded += WindowLoaded;
             this.Closing += WindowClosing;
+            lookup = new OctoPartFetcher();
         }
 
         private string AddManufacturer()
@@ -173,9 +175,17 @@ namespace Component_Organizer
 
         private void HandlePartLookup(object sender, RoutedEventArgs e)
         {
-            OctoPartFetcher temp = new OctoPartFetcher();
-            string desc = temp.GetDescription(((Part)ORM.SelectedItem).PartName);
-            ((Part)ORM.SelectedItem).Description = desc;
+            if(!(ORM.SelectedItem is Part))
+                return;
+
+            Part part = (Part)ORM.SelectedItem;
+            part.Description = lookup.GetDescription(part.PartName);
+            part.Pins = lookup.GetPinCount(part.PartName);
+            part.Package = lookup.GetPackage(part.PartName);
+            part.Price = lookup.GetAveragePrice(part.PartName);
+            part.ManufacturerURL = lookup.GetManufacturer(part.PartName);
+
+            // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
         }
     }
 }
