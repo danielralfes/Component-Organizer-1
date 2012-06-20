@@ -59,6 +59,9 @@
                     <TextBox Text="{Binding Path=PartName}"  Grid.Column="0" Margin="5"/>
                     <Button Grid.Column="1" Margin="5" Click="HandlePartLookup">Look up</Button>
                 </Grid>
+                
+                <Label Grid.Row="2">Description</Label>
+                <TextBox Grid.Row="2" Text="{Binding Path=Description}" Grid.Column="1" Margin="5"/>
 
                 <Label Grid.Row="3">Datasheet</Label>
                 <Grid Grid.Row="3" Grid.Column="1">

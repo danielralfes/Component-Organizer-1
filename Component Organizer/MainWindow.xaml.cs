@@ -173,7 +173,9 @@ namespace Component_Organizer
 
         private void HandlePartLookup(object sender, RoutedEventArgs e)
         {
-
+            OctoPartFetcher temp = new OctoPartFetcher();
+            string desc = temp.GetDescription(((Part)ORM.SelectedItem).PartName);
+            ((Part)ORM.SelectedItem).Description = desc;
         }
     }
 }
