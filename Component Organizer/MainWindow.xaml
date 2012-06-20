@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:OrganizerDB;assembly=OrganizerDB"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Component_Organizer.MainWindow"
-        Title="Component Organizer" Height="500" Width="900">
+        Title="Component Organizer" Height="500" Width="750">
     <Window.Resources>
         <HierarchicalDataTemplate DataType="{x:Type local:Part}">
             <TextBlock Text="{Binding Path=PartName}" />
@@ -51,7 +51,14 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="1">Name</Label>
-                <TextBox Text="{Binding Path=PartName}"  Grid.Row="1" Grid.Column="1" Margin="5"/>
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding Path=PartName}"  Grid.Column="0" Margin="5"/>
+                    <Button Grid.Column="1" Margin="5" Click="HandlePartLookup">Look up</Button>
+                </Grid>
 
                 <Label Grid.Row="3">Datasheet</Label>
                 <Grid Grid.Row="3" Grid.Column="1">
@@ -73,7 +80,7 @@
                 <Grid Grid.Row="6" Grid.Column="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
-                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <xctk:IntegerUpDown Value="{Binding Path=Pins}" FormatString="N0" Increment="1" Minimum="0" DefaultValue="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
                 </Grid>
@@ -85,7 +92,13 @@
                 <TextBox Text="{Binding Path=Price}" Grid.Row="8" Grid.Column="1" Margin="5"></TextBox>
 
                 <Label Grid.Row="9">Manufacturer</Label>
-                <ComboBox x:Name="Manufacturer" SelectedItem="{Binding Path=Manufacturer}" DropDownOpened="UpdateManufacturersCombobox" Grid.Row="9" Grid.Column="1" Margin="5"/>
+                <Grid Grid.Row="9" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="Manufacturer" SelectedItem="{Binding Path=Manufacturer}" DropDownOpened="UpdateManufacturersCombobox" Grid.Column="1" Margin="5"/>
+                </Grid>
 
                 <Label Grid.Row="10">Manufacturer URL</Label>
                 <TextBox  Name="man_URL" Text="{Binding Path=ManufacturerURL}" Grid.Row="10" Grid.Column="1" Margin="5" />
@@ -94,7 +107,7 @@
                 <Grid Grid.Row="11" Grid.Column="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
-                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <xctk:IntegerUpDown Value="{Binding Path=QuantityAvailable}" FormatString="N0" Increment="1" Minimum="0" DefaultValue="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
                 </Grid>

@@ -170,5 +170,10 @@ namespace Component_Organizer
                 }
             }
         }
+
+        private void HandlePartLookup(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
