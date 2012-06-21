@@ -41,28 +41,58 @@ namespace Component_Organizer
             return description;
         }
 
+        internal JToken GetPartAttribute(JToken parent, string fieldname)
+        {
+            foreach (JToken child in parent.Children())
+            {
+                JToken attributeToken = child.SelectToken("attribute.fieldname");
+                if (attributeToken.Value<string>() == "fieldname")
+                {
+                    return child.SelectToken("values[0]");
+                }
+            }
+
+            return null;
+        }
+
         internal int? GetPinCount(string query)
         {
-            return 0;
             JObject part = performQuery(query);
-            JToken pinCountToken = part.SelectToken("results[0].items[0].specs.attribute[attribute.fieldname = number_of_pins].values[0]");
-            int? pinCount = pinCountToken.Value<int?>();
-            return pinCount;
+            JToken specsToken = part.SelectToken("results[0].items[0].specs"); // [attribute.fieldname = number_of_pins].values[0]
+            JToken pinCountToken = GetPartAttribute(specsToken, "number_of_pins");
+            if (pinCountToken != null)
+                return pinCountToken.Value<int?>();
+            return 0;
         }
 
         internal string GetPackage(string query)
         {
-            return "";
+
             JObject part = performQuery(query);
-            JToken packageToken = part.SelectToken("results[0].items[0].specs.attribute[attribute.fieldname = case_package].values[0]");
-            string package = packageToken.Value<string>();
-            return package;
+            JToken specsToken = part.SelectToken("results[0].items[0].specs"); // [attribute.fieldname = case_package].values[0]
+            JToken packageToken = GetPartAttribute(specsToken, "case_package");
+            if (packageToken != null)
+                return packageToken.Value<string>();
+            return "";
+        }
+
+        internal string GetMountingType(string query)
+        {
+
+            JObject part = performQuery(query);
+            JToken specsToken = part.SelectToken("results[0].items[0].specs"); // [attribute.fieldname = mounting_type].values[0]
+            JToken mountingTypeToken = GetPartAttribute(specsToken, "mounting_type");
+            if (mountingTypeToken != null)
+                return mountingTypeToken.Value<string>();
+            return "";
         }
 
         internal float? GetAveragePrice(string query)
         {
-            return 0;
-            throw new NotImplementedException();
+            JObject part = performQuery(query);
+            JToken avgPriceToken = part.SelectToken("results[0].items[0].avg_price[0]");
+            float? avgPrice = avgPriceToken.Value<float?>();
+            return avgPrice;
         }
 
         public string GetManufacturer(string query)
