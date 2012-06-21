@@ -6,9 +6,8 @@ Track electrical components along with datasheet URLs, inventory, and other meta
 
 Planned improvements:
 	More metadata - 
-		Documentation URL,
-		Distributer list & product numbers,
-		Price
+		Documentation URL
+		Distributer list & product numbers
 
 Possible future additions:
 	Custom fields
