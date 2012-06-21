@@ -34,16 +34,8 @@ namespace Component_Organizer
             lastObject = JObject.Parse(jsonData);
             return lastObject;
         }
-        
-        public string GetDescription(string query)
-        {
-            JObject part = performQuery(query);
-            JToken descriptionToken = part.SelectToken("results[0].items[0].short_description");
-            string description = descriptionToken.Value<string>();
-            return description;
-        }
 
-        internal JToken GetPartAttribute(JToken parent, string fieldname)
+        private JToken GetPartAttribute(JToken parent, string fieldname)
         {
             foreach (JToken child in parent.Children())
             {
@@ -56,8 +48,25 @@ namespace Component_Organizer
 
             return null;
         }
+        
+        public string GetDescription(string query)
+        {
+            JObject part = performQuery(query);
+            JToken descriptionToken = part.SelectToken("results[0].items[0].short_description");
+            string description = descriptionToken.Value<string>();
+            if (description.Length > 64)
+            {
+                JToken descriptionsToken = part.SelectToken("results[0].items[0].descriptions");
+                foreach (JToken child in descriptionsToken.Children())
+                {
+                    if (child.SelectToken("credit_domain").Value<string>() == "digikey.com")
+                        return child.SelectToken("text").Value<string>();
+                }
+            }
+            return description;
+        }
 
-        internal int? GetPinCount(string query)
+        public int? GetPinCount(string query)
         {
             JObject part = performQuery(query);
             JToken specsToken = part.SelectToken("results[0].items[0].specs"); // [attribute.fieldname = number_of_pins].values[0]
@@ -67,7 +76,7 @@ namespace Component_Organizer
             return 0;
         }
 
-        internal string GetPackage(string query)
+        public string GetPackage(string query)
         {
 
             JObject part = performQuery(query);
@@ -78,7 +87,7 @@ namespace Component_Organizer
             return "";
         }
 
-        internal string GetMountingType(string query)
+        public string GetMountingType(string query)
         {
 
             JObject part = performQuery(query);
@@ -89,7 +98,7 @@ namespace Component_Organizer
             return "";
         }
 
-        internal float? GetAveragePrice(string query)
+        public float? GetAveragePrice(string query)
         {
             JObject part = performQuery(query);
             JToken avgPriceToken = part.SelectToken("results[0].items[0].avg_price[0]");
