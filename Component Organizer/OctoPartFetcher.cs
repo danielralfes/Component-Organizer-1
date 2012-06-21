@@ -48,7 +48,7 @@ namespace Component_Organizer
             foreach (JToken child in parent.Children())
             {
                 JToken attributeToken = child.SelectToken("attribute.fieldname");
-                if (attributeToken.Value<string>() == "fieldname")
+                if (attributeToken.Value<string>() == fieldname)
                 {
                     return child.SelectToken("values[0]");
                 }
