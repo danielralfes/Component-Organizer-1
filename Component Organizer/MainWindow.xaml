@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:OrganizerDB;assembly=OrganizerDB"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Component_Organizer.MainWindow"
-        Title="Component Organizer" Height="500" Width="750">
+        Title="Component Organizer" Height="500" Width="750" Icon="icon.ico">
     <Window.Resources>
         <HierarchicalDataTemplate DataType="{x:Type local:Part}">
             <TextBlock Text="{Binding Path=PartName}" />

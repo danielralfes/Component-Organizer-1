@@ -50,7 +50,7 @@
       <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
     </Component>
 
-    <Icon Id="icon.ico" SourceFile="$(var.SolutionDir)\icon.ico" />
+    <Icon Id="icon.ico" SourceFile="$(var.SolutionDir)\assets\icon.ico" />
   </Fragment>
 
   <!-- Program binaries -->
