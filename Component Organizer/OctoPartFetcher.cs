@@ -26,7 +26,9 @@ namespace Component_Organizer
                 if (query.Equals(lastQuery))
                     return lastObject;
 
-            string octopartQueryURL = "http://octopart.com/api/v2/bom/match?lines=[{%22q%22%3A+%22" + query + "%22}]" + "&pretty_print=true";
+            lastQuery = query;
+
+            string octopartQueryURL = "http://octopart.com/api/v2/bom/match?lines=[{%22q%22%3A+%22" + query + "%22}]";
 
             string jsonData = client.DownloadString(octopartQueryURL);
             lastObject = JObject.Parse(jsonData);
