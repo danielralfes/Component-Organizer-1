@@ -4,6 +4,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:OrganizerDB;assembly=OrganizerDB"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:extToolkit="clr-namespace:Xceed.Wpf.Toolkit;assembly=WPFToolkit.Extended"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Component_Organizer.MainWindow"
         Title="Component Organizer" Height="500" Width="750" Icon="icon.ico">
     <Window.Resources>
@@ -15,120 +16,122 @@
             <TextBlock Text="{Binding Path=Name}" />
         </HierarchicalDataTemplate>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" MinWidth="150"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
+    <extToolkit:BusyIndicator Name="AppBusy" IsBusy="False" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="150"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
 
-        <GridSplitter Grid.Column ="1" Width="4" Background="Transparent"
-                      HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+            <GridSplitter Grid.Column ="1" Width="4" Background="Transparent"
+                          HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
 
-        <TreeView x:Name="ORM" Grid.Row="1" Grid.Column="0" />
+            <TreeView x:Name="ORM" Grid.Row="1" Grid.Column="0" />
 
-        <DockPanel Grid.Row="1" Grid.Column="2" DataContext="{Binding ElementName=ORM, Path=SelectedItem}">
-            <Grid DockPanel.Dock="Top">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Row="1">Name</Label>
-                <Grid Grid.Row="1" Grid.Column="1">
+            <DockPanel Grid.Row="1" Grid.Column="2" DataContext="{Binding ElementName=ORM, Path=SelectedItem}">
+                <Grid DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBox Text="{Binding Path=PartName}"  Grid.Column="0" Margin="5"/>
-                    <Button Grid.Column="1" Margin="5" Click="HandlePartLookup">Look up</Button>
-                </Grid>
-                
-                <Label Grid.Row="2">Description</Label>
-                <TextBox Grid.Row="2" Text="{Binding Path=Description}" Grid.Column="1" Margin="5"/>
-
-                <Label Grid.Row="3">Datasheet</Label>
-                <Grid Grid.Row="3" Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBox Name="DatasheetTextbox" Margin="5" Text="{Binding Path=Datasheet.FileName}" LostFocus="TextBox_LostFocus_1" GotFocus="TextBox_GotFocus_1"></TextBox>
-                    <Button Name="BrowseDatasheet" Grid.Column="1" Margin="5" Padding="2" Click="BrowseDatasheet_Click_1">Browse</Button>
-                </Grid>
-
-                <Label Grid.Row="4">Distributor URL</Label>
-                <TextBox Text="{Binding Path=DistributorURL}" Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
-
-                <Label Grid.Row="5">Distributor PN</Label>
-                <TextBox Text="{Binding Path=DistributorPartNumber}" Grid.Row="5" Grid.Column="1" Margin="5"></TextBox>
-
-                <Label Grid.Row="6">Pins</Label>
-                <Grid Grid.Row="6" Grid.Column="1" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <xctk:IntegerUpDown Value="{Binding Path=Pins}" FormatString="N0" Increment="1" Minimum="0" DefaultValue="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
-                </Grid>
-
-                <Label Grid.Row="7">Package</Label>
-                <TextBox Text="{Binding Path=Package}" Grid.Row="7" Grid.Column="1" Margin="5"></TextBox>
-
-                <Label Grid.Row="8">Price</Label>
-                <TextBox Text="{Binding Path=Price}" Grid.Row="8" Grid.Column="1" Margin="5"></TextBox>
-
-                <Label Grid.Row="9">Manufacturer</Label>
-                <Grid Grid.Row="9" Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <ComboBox x:Name="Manufacturer" SelectedItem="{Binding Path=Manufacturer}" DropDownOpened="UpdateManufacturersCombobox" Grid.Column="1" Margin="5"/>
+
+                    <Label Grid.Row="1">Name</Label>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Path=PartName}"  Grid.Column="0" Margin="5"/>
+                        <Button Grid.Column="1" Margin="5" Click="HandlePartLookup">Look up</Button>
+                    </Grid>
+                
+                    <Label Grid.Row="2">Description</Label>
+                    <TextBox Grid.Row="2" Text="{Binding Path=Description}" Grid.Column="1" Margin="5"/>
+
+                    <Label Grid.Row="3">Datasheet</Label>
+                    <Grid Grid.Row="3" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="DatasheetTextbox" Margin="5" Text="{Binding Path=Datasheet.FileName}" LostFocus="TextBox_LostFocus_1" GotFocus="TextBox_GotFocus_1"></TextBox>
+                        <Button Name="BrowseDatasheet" Grid.Column="1" Margin="5" Padding="2" Click="BrowseDatasheet_Click_1">Browse</Button>
+                    </Grid>
+
+                    <Label Grid.Row="4">Distributor URL</Label>
+                    <TextBox Text="{Binding Path=DistributorURL}" Grid.Row="4" Grid.Column="1" Margin="5"></TextBox>
+
+                    <Label Grid.Row="5">Distributor PN</Label>
+                    <TextBox Text="{Binding Path=DistributorPartNumber}" Grid.Row="5" Grid.Column="1" Margin="5"></TextBox>
+
+                    <Label Grid.Row="6">Pins</Label>
+                    <Grid Grid.Row="6" Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <xctk:IntegerUpDown Value="{Binding Path=Pins}" FormatString="N0" Increment="1" Minimum="0" DefaultValue="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
+                    </Grid>
+
+                    <Label Grid.Row="7">Package</Label>
+                    <TextBox Text="{Binding Path=Package}" Grid.Row="7" Grid.Column="1" Margin="5"></TextBox>
+
+                    <Label Grid.Row="8">Price</Label>
+                    <TextBox Text="{Binding Path=Price}" Grid.Row="8" Grid.Column="1" Margin="5"></TextBox>
+
+                    <Label Grid.Row="9">Manufacturer</Label>
+                    <Grid Grid.Row="9" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="Manufacturer" SelectedItem="{Binding Path=Manufacturer}" DropDownOpened="UpdateManufacturersCombobox" Grid.Column="1" Margin="5"/>
+                    </Grid>
+
+                    <Label Grid.Row="10">Manufacturer URL</Label>
+                    <TextBox  Name="man_URL" Text="{Binding Path=ManufacturerURL}" Grid.Row="10" Grid.Column="1" Margin="5" />
+
+                    <Label Grid.Row="11">Inventory</Label>
+                    <Grid Grid.Row="11" Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <xctk:IntegerUpDown Value="{Binding Path=QuantityAvailable}" FormatString="N0" Increment="1" Minimum="0" DefaultValue="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
+                    </Grid>
                 </Grid>
 
-                <Label Grid.Row="10">Manufacturer URL</Label>
-                <TextBox  Name="man_URL" Text="{Binding Path=ManufacturerURL}" Grid.Row="10" Grid.Column="1" Margin="5" />
-
-                <Label Grid.Row="11">Inventory</Label>
-                <Grid Grid.Row="11" Grid.Column="1" >
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <xctk:IntegerUpDown Value="{Binding Path=QuantityAvailable}" FormatString="N0" Increment="1" Minimum="0" DefaultValue="0" Grid.Column="1" Margin="5"></xctk:IntegerUpDown>
+                    <Button Grid.Row="1" Grid.Column="0" Click="DeleteEntry" Content="Delete" Margin="5" Padding="4"/>
+                    <Button Grid.Row="1" Grid.Column="2" Click="SaveEntry" Content="Save" Margin="5" Padding="4"/>
                 </Grid>
-            </Grid>
-
-            <Grid DockPanel.Dock="Bottom">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Row="1" Grid.Column="0" Click="DeleteEntry" Content="Delete" Margin="5" Padding="4"/>
-                <Button Grid.Row="1" Grid.Column="2" Click="SaveEntry" Content="Save" Margin="5" Padding="4"/>
-            </Grid>
-        </DockPanel>
-    </Grid>
+            </DockPanel>
+        </Grid>
+    </extToolkit:BusyIndicator>
 </Window>

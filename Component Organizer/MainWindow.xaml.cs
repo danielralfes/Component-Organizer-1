@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using OrganizerDB;
@@ -178,14 +180,24 @@ namespace Component_Organizer
             if(!(ORM.SelectedItem is Part))
                 return;
 
-            Part part = (Part)ORM.SelectedItem;
+            AppBusy.IsBusy = true;
+
+            Part ourPart = (Part)ORM.SelectedItem;
+            TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            Task.Factory.StartNew(() => PartLookup(ourPart))
+                .ContinueWith(w => AppBusy.IsBusy = false, new CancellationToken(), TaskContinuationOptions.None, scheduler);
+
+        }
+
+        private void PartLookup(Part part)
+        {
+            // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
+
             part.Description = lookup.GetDescription(part.PartName);
             part.Pins = lookup.GetPinCount(part.PartName);
             part.Package = lookup.GetPackage(part.PartName);
             part.Price = lookup.GetAveragePrice(part.PartName);
             part.ManufacturerURL = lookup.GetManufacturer(part.PartName);
-
-            // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
         }
     }
 }
