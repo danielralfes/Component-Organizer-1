@@ -38,6 +38,34 @@ namespace Component_Organizer
             lookup = new OctoPartFetcher();
         }
 
+        private void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+            Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
+            context = new OrganizerContext();
+            context.Manufacturers.Load();
+            this.DataContext = context.Manufacturers.Local;
+            ORM.ItemsSource = context.Manufacturers.Local;
+            datagrid.ItemsSource = context.Parts.Local;
+
+            // TODO: Rewrite this as LINQ
+            for(int i = 0; i < datagrid.Columns.Count; i++)
+            {
+                var header = datagrid.Columns[i].Header;
+                if(header is string)
+                {
+                    if(((string)header).Contains("ID"))
+                    {
+                        datagrid.Columns[i].Visibility = System.Windows.Visibility.Collapsed;
+                    }
+                }
+            }
+        }
+
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            this.context.Dispose();
+        }
+
         private string AddManufacturer()
         {
             TextInputDialog manufacturerName = new TextInputDialog();
@@ -129,22 +157,6 @@ namespace Component_Organizer
             }
 
             Manufacturer.Items.Add("Add manufacturer...");
-        }
-
-        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            this.context.Dispose();
-        }
-
-        private void WindowLoaded(object sender, RoutedEventArgs e)
-        {
-            Database.SetInitializer<OrganizerContext>(new OrganizerContextInitializer());
-            context = new OrganizerContext();
-            context.Manufacturers.Load();
-            //context.Datasheets.Load();
-            //context.Parts.Load();
-            this.DataContext = context.Manufacturers.Local;
-            ORM.ItemsSource = context.Manufacturers.Local;
         }
 
         private void BrowseDatasheet_Click_1(object sender, RoutedEventArgs e)

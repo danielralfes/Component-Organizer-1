@@ -33,7 +33,7 @@
 
             <TreeView x:Name="ORM" Grid.Row="1" Grid.Column="0" />
 
-            <DataGrid Grid.ColumnSpan="2" ItemsSource="{Binding Parts}" />
+            <DataGrid Name="datagrid" Grid.ColumnSpan="2" ItemsSource="{Binding Parts}" />
 
             <DockPanel Grid.Row="1" Grid.Column="2" DataContext="{Binding ElementName=ORM, Path=SelectedItem}">
                 <Grid DockPanel.Dock="Top">
