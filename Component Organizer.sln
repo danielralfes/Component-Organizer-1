@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFEx", "WPFEx\WPFEx.csproj
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "setup", "setup\setup.wixproj", "{9B4CD589-EF4C-4029-BDA3-14E9FD16B431}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctoPart.NET", "OctoPart.NET\OctoPart.NET.csproj", "{15770E81-1DAA-4529-BA0B-166772E83625}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,16 @@ Global
 		{03794EB1-4EAD-4035-972A-FAAE1960983F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{03794EB1-4EAD-4035-972A-FAAE1960983F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{03794EB1-4EAD-4035-972A-FAAE1960983F}.Release|x86.ActiveCfg = Release|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{15770E81-1DAA-4529-BA0B-166772E83625}.Release|x86.ActiveCfg = Release|Any CPU
 		{477D25D5-6076-4CA9-B215-2D0A88EF5276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{477D25D5-6076-4CA9-B215-2D0A88EF5276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{477D25D5-6076-4CA9-B215-2D0A88EF5276}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
