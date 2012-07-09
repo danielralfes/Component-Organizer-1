@@ -1,13 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Data.Entity;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using OctoPart;
 using OrganizerDB;
 using WPFEx;
 
@@ -20,7 +16,7 @@ using WPFEx;
  * n-1: Some SoC would be REALLY nice
  *
  * 4: Allow files to be added by drag and drop
- * 5: Add searching
+ * 5: Implement searching
  * 6: ...
  *
  * n: Work on GUI & UX
@@ -32,7 +28,7 @@ namespace Component_Organizer
     public partial class MainWindow : Window
     {
         private OrganizerContext context;
-        OctoPartFetcher lookup;
+        private OctoPartFetcher lookup;
 
         public MainWindow()
         {
@@ -71,7 +67,7 @@ namespace Component_Organizer
                     MessageBoxResult mr = MessageBox.Show("Are you sure you want to delete this manufacturer and ALL of this manufacturer's parts?",
                         "Delete manufacturer", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
 
-                    if(mr == MessageBoxResult.Yes)
+                    if (mr == MessageBoxResult.Yes)
                         context.Manufacturers.Remove(selected);
                 }
                 else
@@ -159,11 +155,11 @@ namespace Component_Organizer
             datasheetFilebroser.ShowDialog();
             if (datasheetFilebroser.DialogResult == MessageBoxResult.OK)
             {
-                if(ORM.SelectedItem is Part)
+                if (ORM.SelectedItem is Part)
                 {
                     Part sel = (Part)ORM.SelectedItem;
                     Datasheet ds = sel.Datasheet;
-                    if(ds == null)
+                    if (ds == null)
                     {
                         ds = new Datasheet();
                         context.Datasheets.Add(ds);
@@ -177,7 +173,7 @@ namespace Component_Organizer
 
         private void HandlePartLookup(object sender, RoutedEventArgs e)
         {
-            if(!(ORM.SelectedItem is Part))
+            if (!(ORM.SelectedItem is Part))
                 return;
 
             AppBusy.IsBusy = true;
@@ -186,7 +182,6 @@ namespace Component_Organizer
             TaskScheduler scheduler = TaskScheduler.FromCurrentSynchronizationContext();
             Task.Factory.StartNew(() => PartLookup(ourPart))
                 .ContinueWith(w => AppBusy.IsBusy = false, new CancellationToken(), TaskContinuationOptions.None, scheduler);
-
         }
 
         private void PartLookup(Part part)

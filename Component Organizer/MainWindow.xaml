@@ -2,17 +2,18 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:local="clr-namespace:OrganizerDB;assembly=OrganizerDB"
+        xmlns:database="clr-namespace:OrganizerDB;assembly=OrganizerDB"
+        xmlns:local="clr-namespace:Component_Organizer"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:extToolkit="clr-namespace:Xceed.Wpf.Toolkit;assembly=WPFToolkit.Extended"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Component_Organizer.MainWindow"
-        Title="Component Organizer" Height="500" Width="750" Icon="icon.ico">
+        Title="Component Organizer" Height="860" Width="750" Icon="icon.ico">
     <Window.Resources>
-        <HierarchicalDataTemplate DataType="{x:Type local:Part}">
+        <HierarchicalDataTemplate DataType="{x:Type database:Part}">
             <TextBlock Text="{Binding Path=PartName}" />
         </HierarchicalDataTemplate>
 
-        <HierarchicalDataTemplate DataType="{x:Type local:Manufacturer}" ItemsSource="{Binding Parts}">
+        <HierarchicalDataTemplate DataType="{x:Type database:Manufacturer}" ItemsSource="{Binding Parts}">
             <TextBlock Text="{Binding Path=Name}" />
         </HierarchicalDataTemplate>
     </Window.Resources>
@@ -20,16 +21,19 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="150"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
-            <GridSplitter Grid.Column ="1" Width="4" Background="Transparent"
+            <GridSplitter Grid.Row ="1" Width="4" Background="Transparent"
                           HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
 
             <TreeView x:Name="ORM" Grid.Row="1" Grid.Column="0" />
+
+            <DataGrid Grid.ColumnSpan="2" ItemsSource="{Binding Parts}" />
 
             <DockPanel Grid.Row="1" Grid.Column="2" DataContext="{Binding ElementName=ORM, Path=SelectedItem}">
                 <Grid DockPanel.Dock="Top">
@@ -61,7 +65,7 @@
                         <TextBox Text="{Binding Path=PartName}"  Grid.Column="0" Margin="5"/>
                         <Button Grid.Column="1" Margin="5" Click="HandlePartLookup">Look up</Button>
                     </Grid>
-                
+
                     <Label Grid.Row="2">Description</Label>
                     <TextBox Grid.Row="2" Text="{Binding Path=Description}" Grid.Column="1" Margin="5"/>
 
