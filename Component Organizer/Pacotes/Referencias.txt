@@ -1,0 +1,7 @@
+﻿https://www.nuget.org/packages/WPFToolkit/  Install-Package WPFToolkit
+
+
+https://github.com/Fody/PropertyChanged
+
+PM> Install-Package Fody
+PM> Install-Package PropertyChanged.Fody
