@@ -17,7 +17,7 @@
             <TextBlock Text="{Binding Path=Name}" />
         </HierarchicalDataTemplate>
     </Window.Resources>
-    <extToolkit:BusyIndicator Name="AppBusy" IsBusy="False" >
+    <xctk:BusyIndicator Name="AppBusy" IsBusy="False" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -137,5 +137,5 @@
                 </Grid>
             </DockPanel>
         </Grid>
-    </extToolkit:BusyIndicator>
+    </xctk:BusyIndicator>
 </Window>
