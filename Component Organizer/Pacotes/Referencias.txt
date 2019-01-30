@@ -5,3 +5,17 @@ https://github.com/Fody/PropertyChanged
 
 PM> Install-Package Fody
 PM> Install-Package PropertyChanged.Fody
+
+https://octopart.com/api/dashboard
+
+ComponentRalfes	69d07868	Active	2019-01-30
+
+https://octopart.com/api/technical-specs
+----------
+https://octopart.com/api/technical-specs#complete-list
+https://octopart.com/api/docs/v3/search-tutorial
+https://octopart.com/api/docs/v3/overview
+https://octopart.com/search?q=24LC64-I%2FSN
+https://octopart.com/api/docs/v3/search-tutorial#filter-fields
+---------------
+usar mongoDB (mlab.com)

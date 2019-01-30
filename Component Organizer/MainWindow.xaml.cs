@@ -28,14 +28,14 @@ namespace Component_Organizer
     public partial class MainWindow : Window
     {
         private OrganizerContext context;
-        private OctoPartFetcher lookup;
+        private OctoPartFetcherV2 lookup;
 
         public MainWindow()
         {
             InitializeComponent();
             this.Loaded += WindowLoaded;
             this.Closing += WindowClosing;
-            lookup = new OctoPartFetcher();
+            lookup = new OctoPartFetcherV2();
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -196,14 +196,25 @@ namespace Component_Organizer
                 .ContinueWith(w => AppBusy.IsBusy = false, new CancellationToken(), TaskContinuationOptions.None, scheduler);
         }
 
+        private void TestV3()
+        {
+            OctoPartFetcherV3 teste = new OctoPartFetcherV3();
+
+            teste.ParametricSearch();
+            teste.BOMMatching();
+            
+        }
+
         private void PartLookup(Part part)
         {
+            TestV3();
+
             // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
 
-            part.Description = lookup.GetDescription(part.PartName);
-            part.Pins = lookup.GetPinCount(part.PartName);
-            part.Package = lookup.GetPackage(part.PartName);
-            part.Price = lookup.GetAveragePrice(part.PartName);
+            part.Description     = lookup.GetDescription(part.PartName);
+            part.Pins            = lookup.GetPinCount(part.PartName);
+            part.Package         = lookup.GetPackage(part.PartName);
+            part.Price           = lookup.GetAveragePrice(part.PartName);
             part.ManufacturerURL = lookup.GetManufacturer(part.PartName);
         }
     }
