@@ -200,8 +200,10 @@ namespace Component_Organizer
         {
             OctoPartFetcherV3 teste = new OctoPartFetcherV3();
 
-            teste.ParametricSearch();
-            teste.BOMMatching();
+            teste._ParametricSearch("tip122g");
+            teste._ParametricSearch("IRFZ44NPBF-ND");
+            teste._ParametricSearch("solid state relay");
+            teste._BOMMatching();
             
         }
 
@@ -211,11 +213,11 @@ namespace Component_Organizer
 
             // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
 
-            part.Description     = lookup.GetDescription(part.PartName);
-            part.Pins            = lookup.GetPinCount(part.PartName);
-            part.Package         = lookup.GetPackage(part.PartName);
-            part.Price           = lookup.GetAveragePrice(part.PartName);
-            part.ManufacturerURL = lookup.GetManufacturer(part.PartName);
+            //part.Description     = lookup.GetDescription(part.PartName);
+            //part.Pins            = lookup.GetPinCount(part.PartName);
+            //part.Package         = lookup.GetPackage(part.PartName);
+            //part.Price           = lookup.GetAveragePrice(part.PartName);
+            //part.ManufacturerURL = lookup.GetManufacturer(part.PartName);
         }
     }
 }

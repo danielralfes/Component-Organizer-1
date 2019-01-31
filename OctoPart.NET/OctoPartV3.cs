@@ -16,39 +16,8 @@ namespace OctoPart
         {
         }
         // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
-        /*
-        Description    
-        Pins           
-        Package        
-        Price          
-        ManufacturerURL 
-        */
-
-
-        ////string lastQuery;
-        ////JObject lastObject;
-        ////private JObject performQuery(string query)
-        ////{
-        ////    if (lastObject != null)
-        ////        if (query.Equals(lastQuery))
-        ////            return lastObject;
-
-        ////    lastQuery = query;
-
-        ////    string octopartQueryURL = "http://octopart.com/api/v3/parts/search?q=" + HttpUtility.UrlEncode(query) + "&apikey=69d07868";
-
-        ////    string jsonData = client.DownloadString(octopartQueryURL);
-        ////    lastObject = JObject.Parse(jsonData);
-        ////    return lastObject;
-        ////}
-
-        //private JToken pickBestPart(JObject queryResults)
-        //{
-        //    return queryResults.SelectToken("");
-        //}
-
         /////
-        public void BOMMatching()
+        public void _BOMMatching()
         {
             // -- your search query --
             var query = new List<dynamic>()
@@ -97,10 +66,9 @@ namespace OctoPart
             }
         }
 
-        public void ParametricSearch()
+        public void _ParametricSearch(string query)
         {
             // -- your search query --
-            string query = "solid state relay";
 
             string octopartUrlBase = "http://octopart.com/api/v3";
             string octopartUrlEndpoint = "parts/search";
@@ -130,7 +98,7 @@ namespace OctoPart
         }
 
 
-        // -- your API key -- (https://octopart.com/api/register)
-        private const string APIKEY = "69d07868";
+        
+        
     }
 }

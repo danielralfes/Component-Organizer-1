@@ -19,3 +19,4 @@ https://octopart.com/search?q=24LC64-I%2FSN
 https://octopart.com/api/docs/v3/search-tutorial#filter-fields
 ---------------
 usar mongoDB (mlab.com)
+// -- your API key -- (https://octopart.com/api/register)

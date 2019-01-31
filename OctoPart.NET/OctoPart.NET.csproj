@@ -7,7 +7,7 @@
     <ProjectGuid>{15770E81-1DAA-4529-BA0B-166772E83625}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OctoPartFetcher.NET</RootNamespace>
+    <RootNamespace>OctoPart</RootNamespace>
     <AssemblyName>OctoPart.NET</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="OctoPartV3.cs" />
     <Compile Include="OctoPart.cs" />
     <Compile Include="OctoPartV2.cs" />

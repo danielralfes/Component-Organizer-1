@@ -12,6 +12,17 @@ namespace OctoPart
 {
     public class OctoPartFetcher
     {
-        //TODO:Fazer injeção de dependência dependendo da versão
+        private const string APIKEY = "69d07868";
+
+        //Name
+        //Description
+        //Pins
+        //Package
+        //ManufacturerURL
+        //Manufacturer
+
+        //Datasheet
+
+        //Gravar os dados técnicos que vier
     }
 }
