@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OctoPart.Model;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,39 @@ namespace OctoPart
 {
     public class OctoPartFetcherV3
     {
+        string octopartUrlBase = "http://octopart.com/api/v3";
+
         public OctoPartFetcherV3()
         {
         }
-        // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
-        /////
-        public void _BOMMatching()
+        
+        public dynamic ParametricSearch(ParameterFilter param)
         {
-            // -- your search query --
+            string octopartUrlEndpoint = "parts/search";
+
+            // Create the search request
+            var client = new RestClient(octopartUrlBase);
+            var req = new RestRequest(octopartUrlEndpoint, Method.GET)
+                        .AddParameter("apikey", param.apiKey)
+                        .AddParameter("q", param.query);
+
+            if (string.IsNullOrEmpty(param.start))
+                req.AddParameter("start", param.start);
+
+            if (string.IsNullOrEmpty(param.limit))
+                req.AddParameter("limit", param.limit);
+            
+            // Perform the search and obtain results
+            var data            = client.Execute(req).Content;
+            var search_response = JsonConvert.DeserializeObject<dynamic>(data);
+
+            return search_response;
+        }
+
+        #region Metodos de teste Exemplos
+
+        public void _BOMMatchingTeste(string apiKey)
+        {
             var query = new List<dynamic>()
             {
                 new Dictionary<string, string>()
@@ -37,16 +63,19 @@ namespace OctoPart
                   { "reference", "line4" } }
             };
 
-            string octopartUrlBase = "http://octopart.com/api/v3";
+            BOMMatching(apiKey, query);
+        }
+
+        public void BOMMatching(string apiKey, List<dynamic> query)
+        {
             string octopartUrlEndpoint = "parts/match";
-            string apiKey = APIKEY;
 
             // Create the search request
             string queryString = (new JavaScriptSerializer()).Serialize(query);
             var client = new RestClient(octopartUrlBase);
             var req = new RestRequest(octopartUrlEndpoint, Method.GET)
-                        .AddParameter("apikey", apiKey)
-                        .AddParameter("queries", queryString);
+                                     .AddParameter("apikey", apiKey)
+                                     .AddParameter("queries", queryString);
 
             // Perform the search and obtain results
             var data = client.Execute(req).Content;
@@ -66,13 +95,9 @@ namespace OctoPart
             }
         }
 
-        public void _ParametricSearch(string query)
+        public void _ParametricSearch(string apiKey, string query)
         {
-            // -- your search query --
-
-            string octopartUrlBase = "http://octopart.com/api/v3";
             string octopartUrlEndpoint = "parts/search";
-            string apiKey = APIKEY;
 
             // Create the search request
             var client = new RestClient(octopartUrlBase);
@@ -95,10 +120,8 @@ namespace OctoPart
                 // Print matched part
                 Console.WriteLine(part["brand"]["name"] + " - " + part["mpn"]);
             }
-        }
+        } 
+        #endregion
 
-
-        
-        
     }
 }

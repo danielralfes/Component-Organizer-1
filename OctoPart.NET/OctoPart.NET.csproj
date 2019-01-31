@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="Model\ParameterFilter.cs" />
     <Compile Include="OctoPartV3.cs" />
     <Compile Include="OctoPart.cs" />
     <Compile Include="OctoPartV2.cs" />

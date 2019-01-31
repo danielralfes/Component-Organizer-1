@@ -20,3 +20,5 @@ https://octopart.com/api/docs/v3/search-tutorial#filter-fields
 ---------------
 usar mongoDB (mlab.com)
 // -- your API key -- (https://octopart.com/api/register)
+-----
+https://octopart.com/api/docs/v3/rest-api

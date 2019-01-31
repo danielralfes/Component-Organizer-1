@@ -12,7 +12,7 @@ namespace OctoPart
 {
     public class OctoPartFetcher
     {
-        private const string APIKEY = "69d07868";
+        public string APIKEY { get { return "69d07868"; }}
 
         //Name
         //Description
@@ -24,5 +24,8 @@ namespace OctoPart
         //Datasheet
 
         //Gravar os dados técnicos que vier
+
+        // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
+        /////
     }
 }

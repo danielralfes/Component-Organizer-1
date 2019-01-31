@@ -196,28 +196,33 @@ namespace Component_Organizer
                 .ContinueWith(w => AppBusy.IsBusy = false, new CancellationToken(), TaskContinuationOptions.None, scheduler);
         }
 
-        private void TestV3()
-        {
-            OctoPartFetcherV3 teste = new OctoPartFetcherV3();
-
-            teste._ParametricSearch("tip122g");
-            teste._ParametricSearch("IRFZ44NPBF-ND");
-            teste._ParametricSearch("solid state relay");
-            teste._BOMMatching();
-            
-        }
-
         private void PartLookup(Part part)
         {
-            TestV3();
 
             // TODO: Create a OctoPartFetcher.FillInInfo(Part p) method
 
-            //part.Description     = lookup.GetDescription(part.PartName);
-            //part.Pins            = lookup.GetPinCount(part.PartName);
-            //part.Package         = lookup.GetPackage(part.PartName);
-            //part.Price           = lookup.GetAveragePrice(part.PartName);
-            //part.ManufacturerURL = lookup.GetManufacturer(part.PartName);
+            part.Description = lookup.GetDescription(part.PartName);
+            part.Pins = lookup.GetPinCount(part.PartName);
+            part.Package = lookup.GetPackage(part.PartName);
+            part.Price = lookup.GetAveragePrice(part.PartName);
+            part.ManufacturerURL = lookup.GetManufacturer(part.PartName);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TestV3();
+        }
+
+        private void TestV3()
+        {
+            OctoPartFetcher octo    = new OctoPartFetcher();
+            OctoPartFetcherV3 teste = new OctoPartFetcherV3();
+
+            teste._ParametricSearch(octo.APIKEY,"tip122g");
+            teste._ParametricSearch(octo.APIKEY,"IRFZ44NPBF-ND");
+            teste._ParametricSearch(octo.APIKEY, "solid state relay");
+            teste._BOMMatchingTeste(octo.APIKEY);
+
         }
     }
 }

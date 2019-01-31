@@ -134,6 +134,7 @@
                     </Grid.ColumnDefinitions>
                     <Button Grid.Row="1" Grid.Column="0" Click="DeleteEntry" Content="Delete" Margin="5" Padding="4"/>
                     <Button Grid.Row="1" Grid.Column="2" Click="SaveEntry" Content="Save" Margin="5" Padding="4"/>
+                    <Button Content="V3" Grid.Column="1" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" AutomationProperties.Name="V3" Click="Button_Click"/>
                 </Grid>
             </DockPanel>
         </Grid>
